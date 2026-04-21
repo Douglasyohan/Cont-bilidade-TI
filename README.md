@@ -1,5 +1,3 @@
-# Cont-bilidade-TI
-## Projeto 1: ##
 # 📘 Static Study Platform — Accounting & Statistics
 
 ## 📌 Overview
