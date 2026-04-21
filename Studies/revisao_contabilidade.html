@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão · Contabilidade Financeira I</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0d0f14;
+    --bg2:       #13161d;
+    --surface:   #1a1e29;
+    --surface2:  #202534;
+    --border:    rgba(255,255,255,0.07);
+    --text:      #e8eaf0;
+    --muted:     #7a8199;
+    --facil:     #34d399;
+    --facil-bg:  rgba(52,211,153,0.08);
+    --medio:     #fbbf24;
+    --medio-bg:  rgba(251,191,36,0.08);
+    --dificil:   #f87171;
+    --dificil-bg:rgba(248,113,113,0.08);
+    --hardcore:  #c084fc;
+    --hardcore-bg:rgba(192,132,252,0.10);
+    --accent:    #6366f1;
+    --accent2:   #818cf8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ──────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ─────────────────────────────────────── */
+  header {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(ellipse, rgba(99,102,241,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-eyebrow {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    border: 1px solid rgba(129,140,248,0.3);
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 6vw, 68px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .header-sub {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  /* ── STATS BAR ───────────────────────────────────── */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 40px 40px 0;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .stat-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── FILTROS ──────────────────────────────────────── */
+  .filtros {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 40px 40px 0;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .filtro-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 7px 18px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+
+  .filtro-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+  .filtro-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .filtro-btn[data-nivel="Fácil"].active     { background: var(--facil);    border-color: var(--facil); }
+  .filtro-btn[data-nivel="Médio"].active     { background: var(--medio);    border-color: var(--medio); color: #1a1a1a; }
+  .filtro-btn[data-nivel="Difícil"].active   { background: var(--dificil);  border-color: var(--dificil); }
+  .filtro-btn[data-nivel="HARDCORE"].active  { background: var(--hardcore); border-color: var(--hardcore); }
+
+  /* ── BARRA DE PROGRESSO ──────────────────────────── */
+  .progresso-wrap {
+    max-width: 860px;
+    margin: 32px auto 0;
+    padding: 0 40px;
+    animation: fadeUp 0.6s 0.45s ease both;
+  }
+
+  .progresso-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .progresso-bar {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progresso-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  /* ── SEÇÕES ───────────────────────────────────────── */
+  .secao {
+    max-width: 860px;
+    margin: 60px auto 0;
+    padding: 0 40px;
+  }
+
+  .secao-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .secao-icon {
+    font-size: 22px;
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .secao-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .secao-count {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .secao-divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+    margin-bottom: 20px;
+  }
+
+  /* ── CARTÃO DE QUESTÃO ───────────────────────────── */
+  .questao {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .questao:hover {
+    border-color: rgba(255,255,255,0.13);
+    transform: translateY(-1px);
+  }
+
+  .questao[data-nivel="Fácil"]    { border-left: 3px solid var(--facil); }
+  .questao[data-nivel="Médio"]    { border-left: 3px solid var(--medio); }
+  .questao[data-nivel="Difícil"]  { border-left: 3px solid var(--dificil); }
+  .questao[data-nivel="HARDCORE"] { border-left: 3px solid var(--hardcore); }
+
+  .questao-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .q-numero {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    min-width: 32px;
+  }
+
+  .q-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+
+  .badge-Fácil    { background: var(--facil-bg);    color: var(--facil);    border: 1px solid rgba(52,211,153,0.25); }
+  .badge-Médio    { background: var(--medio-bg);    color: var(--medio);    border: 1px solid rgba(251,191,36,0.25); }
+  .badge-Difícil  { background: var(--dificil-bg);  color: var(--dificil);  border: 1px solid rgba(248,113,113,0.25); }
+  .badge-HARDCORE { background: var(--hardcore-bg); color: var(--hardcore); border: 1px solid rgba(192,132,252,0.3); }
+
+  .q-enunciado-preview {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .q-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 13px;
+  }
+
+  .q-check.marcada {
+    background: var(--facil);
+    border-color: var(--facil);
+    color: #0d0f14;
+  }
+
+  .q-arrow {
+    font-size: 13px;
+    color: var(--muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  /* ── CORPO DA QUESTÃO ────────────────────────────── */
+  .questao-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .questao-body.open { max-height: 800px; }
+  .questao.open .q-arrow { transform: rotate(180deg); }
+  .questao.open { border-color: rgba(255,255,255,0.12); }
+
+  .questao-inner {
+    padding: 0 22px 22px;
+  }
+
+  .q-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 18px;
+  }
+
+  .q-texto {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-line;
+    margin-bottom: 20px;
+  }
+
+  /* ── GABARITO ─────────────────────────────────────── */
+  .gabarito-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+  }
+
+  .gabarito-toggle:hover {
+    border-color: rgba(255,255,255,0.15);
+    color: var(--text);
+  }
+
+  .gabarito-toggle.revealed {
+    border-color: rgba(52,211,153,0.3);
+    color: var(--facil);
+  }
+
+  .gabarito-toggle .gt-icon { font-size: 16px; }
+
+  .gabarito-conteudo {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .gabarito-conteudo.open { max-height: 600px; }
+
+  .gabarito-inner {
+    margin-top: 12px;
+    background: rgba(52,211,153,0.05);
+    border: 1px solid rgba(52,211,153,0.15);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #a7f3d0;
+    white-space: pre-line;
+  }
+
+  /* ── MÓDULO HARDCORE ─────────────────────────────── */
+  .hardcore-banner {
+    max-width: 860px;
+    margin: 80px auto 0;
+    padding: 0 40px;
+  }
+
+  .hc-card {
+    background: linear-gradient(135deg, rgba(192,132,252,0.08), rgba(99,102,241,0.06));
+    border: 1px solid rgba(192,132,252,0.25);
+    border-radius: 20px;
+    padding: 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hc-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(ellipse, rgba(192,132,252,0.15) 0%, transparent 70%);
+  }
+
+  .hc-skull { font-size: 44px; line-height: 1; margin-bottom: 12px; }
+
+  .hc-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--hardcore);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .hc-sub {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* ── FOOTER ───────────────────────────────────────── */
+  footer {
+    max-width: 860px;
+    margin: 80px auto 0;
+    padding: 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── ANIMAÇÕES ────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .questao { animation-fill-mode: both; }
+
+  /* ── TOAST ────────────────────────────────────────── */
+  .toast {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 13px;
+    color: var(--text);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── HIDDEN ────────────────────────────────────────── */
+  .questao.hidden { display: none; }
+
+  /* ── SCROLLBAR ────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 6px; }
+
+  /* ── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 600px) {
+    header { padding: 60px 24px 40px; }
+    .secao { padding: 0 24px; }
+    .filtros { padding: 32px 24px 0; }
+    .stats { padding: 0 24px; }
+    .progresso-wrap { padding: 0 24px; }
+    .hardcore-banner { padding: 0 24px; }
+    footer { padding: 40px 24px; }
+    .q-enunciado-preview { max-width: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-eyebrow">Ciências Contábeis · UNICENTRO</div>
+  <h1>Contabilidade<br>Financeira I</h1>
+  <p class="header-sub">Revisão completa · Juros Simples · Equivalência de Taxas · Juro Exato e Comercial · Valor Nominal e Atual</p>
+</header>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--facil)"></span> Fácil</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--medio)"></span> Médio</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--dificil)"></span> Difícil</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--hardcore)"></span> HARDCORE</div>
+  <div class="stat-pill" id="stat-total">⬡ <span id="total-count">0</span> questões</div>
+  <div class="stat-pill" id="stat-feitas">✓ <span id="feitas-count">0</span> revisadas</div>
+</div>
+
+<!-- PROGRESSO -->
+<div class="progresso-wrap">
+  <div class="progresso-label">
+    <span>Progresso de revisão</span>
+    <span id="pct-label">0%</span>
+  </div>
+  <div class="progresso-bar">
+    <div class="progresso-fill" id="progresso-fill"></div>
+  </div>
+</div>
+
+<!-- FILTROS -->
+<div class="filtros">
+  <button class="filtro-btn active" data-nivel="Todos">Todos</button>
+  <button class="filtro-btn" data-nivel="Fácil">● Fácil</button>
+  <button class="filtro-btn" data-nivel="Médio">●● Médio</button>
+  <button class="filtro-btn" data-nivel="Difícil">●●● Difícil</button>
+  <button class="filtro-btn" data-nivel="HARDCORE">☠ HARDCORE</button>
+  <button class="filtro-btn" data-nivel="Juros Simples">Juros Simples</button>
+  <button class="filtro-btn" data-nivel="Equivalência">Equivalência</button>
+  <button class="filtro-btn" data-nivel="Juro Exato">Juro Exato</button>
+  <button class="filtro-btn" data-nivel="Valor Atual">Valor Atual</button>
+</div>
+
+<!-- CONTEÚDO GERADO PELO JS -->
+<div id="conteudo"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span id="toast-icon">✓</span>
+  <span id="toast-msg">Questão marcada!</span>
+</div>
+
+<footer>
+  Exercícios baseados na apostila <em>Contabilidade Financeira I</em> — Profs. Marcos R. Kühl, Ivonaldo B. Gusmão e Cesar M. Kulak · UNICENTRO<br>
+  <span style="color:#3d4152;margin-top:8px;display:block">Clique no enunciado para expandir · Clique em "Ver gabarito" para revelar a solução · Marque ✓ ao concluir</span>
+</footer>
+
+<script>
+// ── DADOS ────────────────────────────────────────────────────────────────────
+const questoes = [
+  // ─── JUROS SIMPLES ───────────────────────────────────────────────────────
+  {nivel:"Fácil",tema:"Juros Simples",
+   enun:"Um capital de R$ 5.000,00 foi aplicado a juros simples, durante três anos, à taxa de 12% a.a.\na) Calcule os juros obtidos.\nb) Calcule o montante.",
+   gab:"a) J = 5.000 × 0,12 × 3 = R$ 1.800,00\nb) M = 5.000 + 1.800 = R$ 6.800,00"},
+  {nivel:"Fácil",tema:"Juros Simples",
+   enun:"Calcule o juro simples obtido por um capital de R$ 2.250,00 durante 5 anos com taxa de 10% ao ano.",
+   gab:"J = 2.250 × 0,10 × 5 = R$ 1.125,00"},
+  {nivel:"Fácil",tema:"Juros Simples",
+   enun:"Um capital de R$ 1.000,00 foi aplicado por dois meses a juros simples à taxa de 42% a.a. Qual o montante?",
+   gab:"i mensal = 42%/12 = 3,5% a.m.\nJ = 1.000 × 0,035 × 2 = R$ 70,00\nM = R$ 1.070,00"},
+  {nivel:"Fácil",tema:"Juros Simples",
+   enun:"Qual o montante produzido por uma aplicação de R$ 820,00, feita em 242 dias, com taxa de 3,6% a.a.?",
+   gab:"n = 242/360 = 0,6722 anos\nJ = 820 × 0,036 × 0,6722 = R$ 19,84\nM = R$ 839,84"},
+  {nivel:"Fácil",tema:"Juros Simples",
+   enun:"Qual o montante produzido por uma aplicação de R$ 900,00, durante 6 meses, com taxa de 24% a.a. (juros simples)?",
+   gab:"i semestral = 24%/2 = 12%\nJ = 900 × 0,12 = R$ 108,00\nM = R$ 1.008,00"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Um capital de R$ 7.000,00 é aplicado a juros simples, durante um ano e meio, à taxa de 8% a.s.\na) Calcule os juros.\nb) Calcule o montante.",
+   gab:"n = 3 semestres\na) J = 7.000 × 0,08 × 3 = R$ 1.680,00\nb) M = R$ 8.680,00"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Qual o valor futuro gerado por uma aplicação de R$ 1.500,00 durante 13 meses, com taxa de 15% a.a. (juros simples)?",
+   gab:"n = 13/12 anos\nJ = 1.500 × 0,15 × (13/12) = R$ 243,75\nM = R$ 1.743,75"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Qual o montante de uma aplicação de R$ 16.000,00 a juros simples, durante cinco meses, à taxa de 80% a.a.?",
+   gab:"i mensal = 80%/12\nJ = 16.000 × (0,80/12) × 5 = R$ 5.333,33\nM = R$ 21.333,33"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Bianca aplicou R$ 30.000,00 a juros simples, pelo prazo de seis meses, e recebeu R$ 9.000,00 de juros. Qual a taxa mensal da aplicação?",
+   gab:"9.000 = 30.000 × i × 6\ni = 9.000 / 180.000 = 0,05 → 5,00% ao mês"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Em uma aplicação de R$ 3.000,00 a juros simples e à taxa de 10% a.a., o montante recebido foi de R$ 4.800,00. Determine o prazo da aplicação.",
+   gab:"J = 4.800 - 3.000 = R$ 1.800,00\n1.800 = 3.000 × 0,10 × n → n = 6 anos"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Marta aplicou R$ 800,00 a juros simples à taxa de 12% a.a. Se ela recebeu R$ 384,00 de juros, calcule o prazo.",
+   gab:"384 = 800 × 0,12 × n → n = 4 anos"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Uma televisão é vendida à vista por R$ 1.500,00 ou a prazo com R$ 300,00 de entrada + R$ 1.308,00 após três meses. Qual a taxa mensal de juros simples?",
+   gab:"Capital financiado = 1.500 - 300 = R$ 1.200,00\nJ = 1.308 - 1.200 = R$ 108,00\n108 = 1.200 × i × 3 → i = 3,00% ao mês"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Uma geladeira é vendida à vista por R$ 1.500,00 ou a prazo com R$ 450,00 de entrada + R$ 1.200,00 após quatro meses. Qual a taxa mensal de juros simples?",
+   gab:"Capital = 1.500 - 450 = R$ 1.050,00\nJ = 150,00\n150 = 1.050 × i × 4 → i ≈ 3,57% ao mês"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Paulo aplicou certa quantia a 1,8% a.m. por 4 meses e recebeu montante de R$ 5.360,00. Calcule o juro auferido.",
+   gab:"5.360 = P × (1 + 0,018 × 4) = P × 1,072\nP = R$ 5.000,00\nJ = R$ 360,00"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Que capital rende juros simples de R$ 3.000,00 no prazo de cinco meses, se a taxa for de 2% a.m.?",
+   gab:"3.000 = P × 0,02 × 5 → P = R$ 30.000,00"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Quantos meses são necessários para que R$ 1.500,00, à taxa de 9% ao semestre, produza R$ 135,00 de juro simples?",
+   gab:"i mensal = 9%/6 = 1,5% a.m.\n135 = 1.500 × 0,015 × n → n = 6 meses"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Um capital de R$ 5.000,00 foi aplicado a 18% a.a. durante 18 meses. Calcule os juros produzidos.",
+   gab:"n = 1,5 anos\nJ = 5.000 × 0,18 × 1,5 = R$ 1.350,00"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Qual o montante produzido por uma aplicação de R$ 920,00, durante 29 dias, com taxa de 36% a.a.?",
+   gab:"n = 29/360\nJ = 920 × 0,36 × (29/360) = R$ 26,68\nM = R$ 946,68"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Calcule o montante de R$ 3.000,00 aplicado a 18% a.a. por 7 meses (juros simples).",
+   gab:"n = 7/12\nJ = 3.000 × 0,18 × (7/12) = R$ 315,00\nM = R$ 3.315,00"},
+  {nivel:"Médio",tema:"Juros Simples",
+   enun:"Qual o montante produzido por uma aplicação de R$ 1.450,00, no final de 4 meses, com taxa de 30% a.a.?",
+   gab:"n = 4/12 = 1/3 ano\nJ = 1.450 × 0,30 × (1/3) = R$ 145,00\nM = R$ 1.595,00"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Durante quanto tempo um capital deve ser aplicado a juros simples, à taxa de 8% a.a., para que duplique?",
+   gab:"J = P → P = P × 0,08 × n\nn = 1/0,08 = 12,50 anos"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Um capital aplicado à taxa de 8% a.m. (juros simples) triplica em que prazo?",
+   gab:"J = 2P → 2P = P × 0,08 × n\nn = 25 meses"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Em quantos dias um capital de R$ 1.000,00 dobra com taxa de 30% a.m.?",
+   gab:"i diária = 30%/30 = 1% a.d.\n1.000 = 1.000 × 0,01 × n → n = 100 dias"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Calcule o juro simples de um empréstimo de R$ 5.000,00 contratado em 13/04/2015 e liquidado em 28/06/2015, com taxa de 36% a.a. (dias corridos).",
+   gab:"Dias: 17 (abr) + 31 (mai) + 28 (jun) = 76 dias\nJ = 5.000 × 0,36 × (76/360) = R$ 380,00"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Uma aplicação de R$ 1.200,00 por 100 dias produziu R$ 72,00 de juro. Outra aplicação de R$ 2.400,00 foi por 20 dias, na mesma taxa. Calcule a taxa anual e o juro da 2ª aplicação.",
+   gab:"72 = 1.200 × i × (100/360) → i = 21,60% a.a.\nJ₂ = 2.400 × 0,216 × (20/360) = R$ 28,80"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Um vestido de noiva é vendido à vista por R$ 2.400,00 ou a prazo com 20% de entrada + R$ 2.150,00 dois meses após. Qual a taxa mensal de juros simples?",
+   gab:"Entrada = R$ 480,00\nCapital = R$ 1.920,00\nJ = 2.150 - 1.920 = R$ 230,00\n230 = 1.920 × i × 2 → i ≈ 5,99% ao mês"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Qual o valor futuro produzido por R$ 1.900,00, durante 3 meses e 8 dias, com taxa de 24% a.a.?",
+   gab:"n = 98/360 anos\nJ = 1.900 × 0,24 × (98/360) = R$ 124,13\nM = R$ 2.024,13"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Qual a quantia necessária para produzir R$ 200,00 de juros com taxa de 15% a.a. durante 8 meses? Qual o montante?",
+   gab:"200 = P × 0,15 × (8/12) → P = R$ 2.000,00\nM = R$ 2.200,00"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"Qual o tempo para R$ 1.500,00 produzir R$ 300,00 a 30% a.m. (juros simples)? Qual o montante?",
+   gab:"300 = 1.500 × 0,30 × n → n ≈ 0,6667 meses\nM = R$ 1.800,00"},
+  {nivel:"Difícil",tema:"Juros Simples",
+   enun:"A que taxa mensal R$ 1.500,00 produzirá R$ 682,50 de juros simples em 13 meses? Qual o montante?",
+   gab:"682,50 = 1.500 × i × 13 → i = 3,5% a.m.\nM = R$ 2.182,50"},
+
+  // ─── EQUIVALÊNCIA DE TAXAS ────────────────────────────────────────────────
+  {nivel:"Fácil",tema:"Equivalência de Taxas",
+   enun:"Calcule a taxa mensal proporcional e a taxa mensal equivalente a 24% ao ano.",
+   gab:"Proporcional: 24%/12 = 2% ao mês\nEquivalente: (1,24)^(1/12) - 1 ≈ 1,8088% ao mês"},
+  {nivel:"Fácil",tema:"Equivalência de Taxas",
+   enun:"Calcule a taxa proporcional e a equivalente anual correspondente a 2% ao mês.",
+   gab:"Proporcional: 2% × 12 = 24% ao ano\nEquivalente: (1,02)^12 - 1 ≈ 26,82% ao ano"},
+  {nivel:"Fácil",tema:"Equivalência de Taxas",
+   enun:"Calcule:\na) Taxa bimestral proporcional a 9% ao ano.\nb) Taxa semestral equivalente a 5% ao ano.\nc) Taxa anual equivalente a 1,25% ao trimestre.\nd) Taxa proporcional anual se a taxa semestral é 2,5%.\ne) Taxa anual efetiva se a taxa semestral é 3%.",
+   gab:"a) 9%/6 = 1,5% a.b.\nb) (1,05)^(1/2) - 1 ≈ 2,4695% a.s.\nc) (1,0125)^4 - 1 ≈ 5,0945% a.a.\nd) 2,5% × 2 = 5% a.a.\ne) (1,03)^2 - 1 ≈ 6,09% a.a."},
+  {nivel:"Médio",tema:"Equivalência de Taxas",
+   enun:"Qual a taxa trimestral equivalente a 6% ao ano?",
+   gab:"(1,06)^(1/4) - 1 ≈ 1,4674% ao trimestre"},
+  {nivel:"Médio",tema:"Equivalência de Taxas",
+   enun:"Qual a taxa anual equivalente a 2% ao mês?",
+   gab:"(1,02)^12 - 1 ≈ 26,82% ao ano"},
+  {nivel:"Médio",tema:"Equivalência de Taxas",
+   enun:"Qual a taxa mensal equivalente a 36% ao ano?",
+   gab:"(1,36)^(1/12) - 1 ≈ 2,5955% ao mês"},
+  {nivel:"Médio",tema:"Equivalência de Taxas",
+   enun:"A caderneta de poupança paga 6% ao ano com capitalizações mensais. Qual a taxa efetiva anual?",
+   gab:"(1 + 0,06/12)^12 - 1 = (1,005)^12 - 1 ≈ 6,1678% ao ano"},
+  {nivel:"Médio",tema:"Equivalência de Taxas",
+   enun:"Um título rende 12% ao ano com capitalizações trimestrais. Qual a taxa efetiva anual?",
+   gab:"(1 + 0,12/4)^4 - 1 = (1,03)^4 - 1 ≈ 12,55% ao ano"},
+  {nivel:"Médio",tema:"Equivalência de Taxas",
+   enun:"Um capital foi aplicado a 1,5% ao mês. Qual a taxa anual equivalente?",
+   gab:"(1,015)^12 - 1 ≈ 19,5618% ao ano"},
+  {nivel:"Difícil",tema:"Equivalência de Taxas",
+   enun:"Uma instituição paga 24% ao ano, capitalizado trimestralmente. Qual a taxa efetiva anual?",
+   gab:"(1 + 0,24/4)^4 - 1 = (1,06)^4 - 1 ≈ 26,2477% ao ano"},
+  {nivel:"Difícil",tema:"Equivalência de Taxas",
+   enun:"Determine a taxa diária equivalente à taxa de 6% ao semestre.",
+   gab:"n = 180 dias\n(1,06)^(1/180) - 1 ≈ 0,03237% ao dia"},
+  {nivel:"Difícil",tema:"Equivalência de Taxas",
+   enun:"Determine a taxa efetiva mensal equivalente a uma taxa nominal de 8,5% ao ano, capitalizado trimestralmente.",
+   gab:"i trimestral = 8,5%/4 = 2,125% a.t.\ni mensal = (1,02125)^(1/3) - 1 ≈ 0,70337% ao mês"},
+  {nivel:"Difícil",tema:"Equivalência de Taxas",
+   enun:"Determine as taxas efetivas trimestral e anual equivalentes à taxa nominal de 11,4% ao ano, capitalizado mensalmente.",
+   gab:"i mensal = 11,4%/12 = 0,95% a.m.\nTrimestral: (1,0095)^3 - 1 ≈ 2,87716% a.t.\nAnual: (1,0095)^12 - 1 ≈ 12,01492% a.a."},
+
+  // ─── JURO EXATO E COMERCIAL ───────────────────────────────────────────────
+  {nivel:"Fácil",tema:"Juro Exato e Comercial",
+   enun:"Calcule os juros simples em uma aplicação de R$ 4.000,00 à taxa de 35% a.a. pelo prazo de 7 meses.",
+   gab:"J = 4.000 × 0,35 × (7/12) = R$ 816,67"},
+  {nivel:"Fácil",tema:"Juro Exato e Comercial",
+   enun:"Calcule o montante de R$ 5.000,00 a 48% a.a. por 5 meses (juros simples).",
+   gab:"J = 5.000 × 0,48 × (5/12) = R$ 1.000,00\nM = R$ 6.000,00"},
+  {nivel:"Médio",tema:"Juro Exato e Comercial",
+   enun:"Um capital de R$ 5.000,00 foi aplicado por 42 dias à taxa de 30% a.a. Calcule os juros comerciais e os juros exatos.",
+   gab:"Comercial (base 360): J = 5.000 × 0,30 × (42/360) = R$ 175,00\nExato (base 365): J = 5.000 × 0,30 × (42/365) ≈ R$ 172,60"},
+  {nivel:"Médio",tema:"Juro Exato e Comercial",
+   enun:"Em juros simples, qual a taxa trimestral comercial equivalente a 4,4% a.b. (ao bimestre)?",
+   gab:"Proporcional: i.t. = 4,4% × (3/2) = 6,60% a.t."},
+  {nivel:"Médio",tema:"Juro Exato e Comercial",
+   enun:"Uma aplicação de R$ 800,00 a juros simples comerciais teve resgate de R$ 908,00 após 135 dias. Determine a taxa mensal.",
+   gab:"J = R$ 108,00 · n = 4,5 meses\n108 = 800 × i × 4,5 → i = 3,00% a.m."},
+  {nivel:"Médio",tema:"Juro Exato e Comercial",
+   enun:"R$ 5.000,00 aplicados a 24% a.a.\na) Montante após 6 meses?\nb) Após quantos meses os juros igualam o capital inicial?",
+   gab:"a) J = 5.000 × 0,24 × 0,5 = R$ 600 → M = R$ 5.600,00\nb) 5.000 = 5.000 × 0,24 × (n/12) → n = 50 meses"},
+  {nivel:"Médio",tema:"Juro Exato e Comercial",
+   enun:"Um fundo teve capital de R$ 4.000,00 e resgate de R$ 5.200,00 após 6 meses. Qual a taxa anual de juros simples?",
+   gab:"J = R$ 1.200,00\n1.200 = 4.000 × i × 0,5 → i = 60,00% a.a."},
+  {nivel:"Difícil",tema:"Juro Exato e Comercial",
+   enun:"Em juros simples, determine a taxa anual exata e comercial equivalente a:\na) 1,5% a.m.   b) 4,5% a.q.   c) 2,5% a.b.   d) 6,5% a.s.   e) 3,5% a.t.",
+   gab:"a) Exata: 18,25% · Comercial: 18,00%\nb) Exata: 13,69% · Comercial: 13,50%\nc) Exata: 15,21% · Comercial: 15,00%\nd) Exata: 13,18% · Comercial: 13,00%\ne) Exata: 14,19% · Comercial: 14,00%"},
+  {nivel:"Difícil",tema:"Juro Exato e Comercial",
+   enun:"R$ 25.000,00 aplicados a 30% a.a. por 67 dias. Calcule os juros exatos e comerciais.",
+   gab:"Comercial: 25.000 × 0,30 × (67/360) = R$ 1.395,83\nExato: 25.000 × 0,30 × (67/365) = R$ 1.376,71"},
+  {nivel:"Difícil",tema:"Juro Exato e Comercial",
+   enun:"Determinado capital a juros simples exatos rendeu R$ 240,00. Quais seriam os juros comerciais desta mesma aplicação?",
+   gab:"J_exato = P × i × (n/365) = 240\nJ_comercial = J_exato × (365/360) ≈ R$ 243,33\n(Gabarito apostila: R$ 236,71 — sentido inverso: de comercial para exato)"},
+  {nivel:"Difícil",tema:"Juro Exato e Comercial",
+   enun:"R$ 3.000,00 aplicados em 23/03/1999 a 96% a.a. Resgate em 17/09/2000 (544 dias). Calcule juros exatos e comerciais.",
+   gab:"Exato (365): 3.000 × 0,96 × (544/365) = R$ 4.272,00\nComercial (360): 3.000 × 0,96 × (544/360) = R$ 4.352,00"},
+  {nivel:"Difícil",tema:"Juro Exato e Comercial",
+   enun:"R$ 2.000.000,00 aplicados por 4 meses com resgate de R$ 2.600.000,00. Qual a taxa anual de juros simples?",
+   gab:"J = 600.000\n600.000 = 2.000.000 × i × (4/12) → i = 90,00% a.a."},
+
+  // ─── VALOR NOMINAL E VALOR ATUAL ─────────────────────────────────────────
+  {nivel:"Fácil",tema:"Valor Nominal e Valor Atual",
+   enun:"R$ 10.000,00 aplicados a 1,5% a.m. (juros simples). Calcule o montante para:\na) 2 meses   b) 3 meses   c) 5 meses   d) 10 meses",
+   gab:"a) R$ 10.300,00\nb) R$ 10.450,00\nc) R$ 10.750,00\nd) R$ 11.500,00"},
+  {nivel:"Fácil",tema:"Valor Nominal e Valor Atual",
+   enun:"R$ 700,00 a 20% a.a. (juros simples). Calcule o montante para:\na) 1 ano   b) 2 anos   c) 5 anos   d) 10 anos",
+   gab:"a) R$ 840,00\nb) R$ 980,00\nc) R$ 1.400,00\nd) R$ 2.100,00"},
+  {nivel:"Médio",tema:"Valor Nominal e Valor Atual",
+   enun:"Dívida de R$ 50.000,00 com vencimento em 8 meses. Taxa: 2% a.m. Calcule o valor atual:\na) Hoje.\nb) 3 meses antes do vencimento.\nc) Daqui a 2 meses.",
+   gab:"a) VA = 50.000/(1+0,02×8) = R$ 43.103,34\nb) VA = 50.000/(1+0,02×3) = R$ 47.169,81\nc) VA = 50.000/(1+0,02×6) = R$ 44.642,86"},
+  {nivel:"Médio",tema:"Valor Nominal e Valor Atual",
+   enun:"Título de R$ 24.000,00 com vencimento em 10 meses.\na) Valor atual hoje (taxa 2,2% a.m.).\nb) Valor atual 3 meses antes do vencimento (taxa 2,6% a.m.).\nc) Valor atual 65 dias antes do vencimento (taxa 2,1% a.m.).",
+   gab:"a) 24.000/(1+0,022×10) = R$ 19.672,13\nb) 24.000/(1+0,026×3) = R$ 22.263,45\nc) n = 65/30; 24.000/(1+0,021×(65/30)) = R$ 22.955,52"},
+  {nivel:"Médio",tema:"Valor Nominal e Valor Atual",
+   enun:"Hot money de R$ 4.000.000,00 por 3 dias. Taxas: 5% a.m., 5,4% a.m. e 5,6% a.m.\na) Montante final.\nb) Taxa efetiva do período.",
+   gab:"M = 4.000.000 × (1+0,05/30) × (1+0,054/30) × (1+0,056/30)\nM ≈ R$ 4.021.371,24\nTaxa efetiva ≈ 0,53%"},
+  {nivel:"Difícil",tema:"Valor Nominal e Valor Atual",
+   enun:"Investidor comprou título por R$ 17.000,00 (valor de resgate R$ 20.000,00, prazo 12 meses).\na) Qual a taxa de juros simples no período e ao mês?\nb) Se vender 6 meses antes do vencimento (taxa de mercado 1,3% a.m.), qual o preço de venda?",
+   gab:"a) J = 3.000; i_período = 17,64%; i_mensal = 1,47%\nb) VA = 20.000/(1+0,013×6) = R$ 18.552,88"},
+  {nivel:"Difícil",tema:"Valor Nominal e Valor Atual",
+   enun:"João aplicou R$ 50.000,00 a 2,5% a.m. por 9 meses. Vendeu a Pedro 2 meses antes do vencimento (taxa 2,8% a.m.).\na) Qual o valor de venda?\nb) Qual a taxa efetiva mensal de João?",
+   gab:"M(9m) = 50.000 × (1+0,025×9) = R$ 61.250,00\na) VA = 61.250/(1+0,028×2) = R$ 58.001,89\nb) i_eff = (58.001,89/50.000 - 1)/7 ≈ 2,2863% a.m."},
+  {nivel:"Difícil",tema:"Valor Nominal e Valor Atual",
+   enun:"Carlos aplicou R$ 60.000,00 a 32% a.a. por 9 meses. Vendeu a Vera 4 meses antes do vencimento (taxa 27% a.a.).\na) Calcule o valor de venda.\nb) Qual a taxa efetiva mensal de Carlos?",
+   gab:"M = 60.000×(1+0,32×0,75) = R$ 74.400,00\na) VA = 74.400/(1+0,27×(4/12)) = R$ 68.256,88\nb) i_eff = (68.256,88/60.000 - 1)/5 ≈ 2,7523% a.m."},
+  {nivel:"Difícil",tema:"Valor Nominal e Valor Atual",
+   enun:"Hot money por 3 dias úteis consecutivos: 2,6% a.m., 2,6% a.m. e 2,9% a.m. Qual a taxa acumulada?",
+   gab:"(1+0,026/30) × (1+0,026/30) × (1+0,029/30) - 1 ≈ 0,27%"},
+  {nivel:"Difícil",tema:"Valor Nominal e Valor Atual",
+   enun:"Taxa de 2,8% a.m. vigorou por 4 dias úteis consecutivos em hot money. Qual a taxa acumulada?",
+   gab:"(1 + 0,028/30)^4 - 1 ≈ 0,3739%"},
+
+  // ─── HARDCORE ─────────────────────────────────────────────────────────────
+  {nivel:"HARDCORE",tema:"Integração de Conteúdos",
+   enun:"Um capital deve dobrar a juros simples de 8% a.a. Em paralelo, outro capital deve triplicar a juros simples de 8% a.m. Compare os prazos necessários em cada caso, expressando ambos em MESES.",
+   gab:"Dobrar (8% a.a.): P = P×0,08×n → n = 12,50 anos = 150 meses\nTriplicar (8% a.m.): 2P = P×0,08×n → n = 25 meses\n\nConclusão: O capital a 8% a.m. triplica em 25 meses, enquanto o de 8% a.a. leva 150 meses para apenas dobrar."},
+  {nivel:"HARDCORE",tema:"Hot Money Comparativo",
+   enun:"Hot money de R$ 4.000.000,00 por 3 dias.\nCenário A: 2,4% a.m., 2,0% a.m., 1,9% a.m.\nCenário B: 5,0% a.m., 5,4% a.m., 5,6% a.m.\na) Montante e taxa efetiva do Cenário A.\nb) Compare com o Cenário B (M ≈ R$ 4.021.371,24 e taxa eff ≈ 0,53%).\nc) Qual a diferença em R$?",
+   gab:"a) M_A = 4.000.000 × (1+0,024/30) × (1+0,020/30) × (1+0,019/30) ≈ R$ 4.008.405,85\n   Taxa eff A ≈ 0,21%\n\nb) Cenário B: M ≈ R$ 4.021.371,24 · Taxa eff ≈ 0,53%\n\nc) Diferença: R$ 4.021.371,24 - R$ 4.008.405,85 = R$ 12.965,39 em apenas 3 dias!"},
+  {nivel:"HARDCORE",tema:"Venda Antecipada Dupla",
+   enun:"JOÃO aplicou R$ 50.000,00 a 2,5% a.m. por 9 meses, mas vendeu 2 meses antes do vencimento (mercado: 2,8% a.m.).\nCARLOS aplicou R$ 60.000,00 a 32% a.a. por 9 meses, mas vendeu 4 meses antes do vencimento (mercado: 27% a.a.).\na) Valor de venda de cada título.\nb) Taxa efetiva mensal de cada um.\nc) Quem obteve melhor rentabilidade?",
+   gab:"JOÃO:\nM(9m) = R$ 61.250,00\nVenda = 61.250/(1+0,028×2) = R$ 58.001,89\ni_eff = 2,2863% a.m.\n\nCARLOS:\nM(9m) = R$ 74.400,00\nVenda = 74.400/(1+0,27×(4/12)) = R$ 68.256,88\ni_eff = 2,7523% a.m.\n\nCARLOS venceu: 2,75% vs 2,29% a.m."},
+  {nivel:"HARDCORE",tema:"Comparativo de Investimentos",
+   enun:"Três opções de investimento:\n• Opção A: 24% ao ano, capitalização trimestral\n• Opção B: 2% ao mês (regime composto)\n• Opção C: Taxa nominal 11,4% ao ano, capitalização mensal\na) Taxa efetiva anual de cada.\nb) Qual é a mais vantajosa?",
+   gab:"A: (1,06)^4 - 1 ≈ 26,2477% a.a.\nB: (1,02)^12 - 1 ≈ 26,82% a.a.\nC: (1,0095)^12 - 1 ≈ 12,01% a.a.\n\nRanking: B (26,82%) > A (26,25%) > C (12,01%)\nOpção B é a mais vantajosa."},
+  {nivel:"HARDCORE",tema:"Desconto + Hot Money Integrado",
+   enun:"Uma empresa tem título a receber de R$ 50.000,00 com vencimento em 8 meses. Decide descontá-lo hoje (taxa 2% a.m.) e aplicar o valor obtido em hot money por 4 dias úteis: 2,6% a.m., 2,6% a.m., 2,9% a.m. e 2,8% a.m.\na) Valor atual do título hoje.\nb) Montante ao final dos 4 dias.\nc) Taxa efetiva acumulada do hot money.\nd) Ganho líquido vs perda no desconto.",
+   gab:"a) VA = 50.000/(1+0,02×8) = R$ 43.103,45\n\nb) M = 43.103,45 × (1+0,026/30) × (1+0,026/30) × (1+0,029/30) × (1+0,028/30) ≈ R$ 43.264,13\n\nc) Taxa eff ≈ 0,3729% no período\n\nd) Perda no desconto: R$ 6.896,55 · Ganho no HM: R$ 160,68\nCusto real do desconto antecipado evidenciado!"},
+];
+
+// ─── CONFIGURAÇÕES POR TEMA ─────────────────────────────────────────────────
+const temaConfig = {
+  "Juros Simples":            { icon: "📐", cor: "#6366f1" },
+  "Equivalência de Taxas":   { icon: "⇄",  cor: "#0ea5e9" },
+  "Juro Exato e Comercial":  { icon: "📅", cor: "#10b981" },
+  "Valor Nominal e Valor Atual": { icon: "💹", cor: "#f59e0b" },
+  "Integração de Conteúdos": { icon: "☠",  cor: "#c084fc" },
+  "Hot Money Comparativo":   { icon: "☠",  cor: "#c084fc" },
+  "Venda Antecipada Dupla":  { icon: "☠",  cor: "#c084fc" },
+  "Comparativo de Investimentos": { icon: "☠",  cor: "#c084fc" },
+  "Desconto + Hot Money Integrado": { icon: "☠",  cor: "#c084fc" },
+};
+
+// ─── EMBARALHAR (seed determinística) ─────────────────────────────────────
+function seededShuffle(arr, seed) {
+  let s = seed;
+  const rng = () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Separar hardcore das demais
+const qHardcore = questoes.filter(q => q.nivel === "HARDCORE");
+const qNormais  = seededShuffle(questoes.filter(q => q.nivel !== "HARDCORE"), 42);
+
+// Intercalar níveis
+const qFacil   = qNormais.filter(q => q.nivel === "Fácil");
+const qMedio   = qNormais.filter(q => q.nivel === "Médio");
+const qDificil = qNormais.filter(q => q.nivel === "Difícil");
+
+const intercaladas = [];
+let fi = 0, mi = 0, di = 0, ci = 0;
+while (fi < qFacil.length || mi < qMedio.length || di < qDificil.length) {
+  const p = ci % 4;
+  if ((p === 0 || p === 3) && fi < qFacil.length)   { intercaladas.push(qFacil[fi++]);   }
+  else if (p === 1 && mi < qMedio.length)             { intercaladas.push(qMedio[mi++]);   }
+  else if (p === 2 && di < qDificil.length)           { intercaladas.push(qDificil[di++]); }
+  else if (fi < qFacil.length)   intercaladas.push(qFacil[fi++]);
+  else if (mi < qMedio.length)   intercaladas.push(qMedio[mi++]);
+  else if (di < qDificil.length) intercaladas.push(qDificil[di++]);
+  ci++;
+}
+
+const todasQuestoes = [...intercaladas, ...qHardcore];
+
+// ─── RENDER ─────────────────────────────────────────────────────────────────
+const contEl = document.getElementById('conteudo');
+const marcadas = new Set();
+
+// Agrupar por tema (mantendo ordem de aparição)
+const temas = [];
+const temaMap = {};
+todasQuestoes.forEach((q, i) => {
+  const temaKey = q.nivel === "HARDCORE" ? "__HARDCORE__" : q.tema;
+  if (!temaMap[temaKey]) { temaMap[temaKey] = []; temas.push(temaKey); }
+  temaMap[temaKey].push({ q, idx: i });
+});
+
+// Seção HARDCORE especial
+const hcSection = document.createElement('div');
+hcSection.className = 'hardcore-banner';
+hcSection.innerHTML = `
+  <div class="hc-card">
+    <div class="hc-skull">☠</div>
+    <div class="hc-titulo">Módulo HARDCORE</div>
+    <div class="hc-sub">5 questões que integram múltiplos conteúdos · Leia com atenção todos os dados</div>
+  </div>`;
+
+temas.forEach(temaKey => {
+  const isHC = temaKey === "__HARDCORE__";
+  const items = temaMap[temaKey];
+
+  if (isHC) { contEl.appendChild(hcSection); }
+
+  const sec = document.createElement('div');
+  sec.className = 'secao';
+
+  const cfg = temaConfig[isHC ? items[0].q.tema : temaKey] || { icon: "📘", cor: "#6366f1" };
+  const titulo = isHC ? "Questões HARDCORE" : temaKey;
+
+  sec.innerHTML = `
+    <div class="secao-header">
+      <div class="secao-icon" style="background:${cfg.cor}22; color:${cfg.cor}">${cfg.icon}</div>
+      <div class="secao-titulo">${titulo}</div>
+      <div class="secao-count">${items.length} questão${items.length > 1 ? 'ões' : ''}</div>
+    </div>
+    <div class="secao-divider"></div>
+  `;
+
+  items.forEach(({ q, idx }, secIdx) => {
+    const delay = secIdx * 0.05;
+    const num = isHC ? `HC-${secIdx + 1}` : idx + 1;
+    const preview = q.enun.split('\n')[0].substring(0, 80) + (q.enun.length > 80 ? '…' : '');
+
+    const card = document.createElement('div');
+    card.className = 'questao';
+    card.dataset.nivel  = q.nivel;
+    card.dataset.tema   = q.tema;
+    card.dataset.idx    = idx;
+    card.style.animationDelay = delay + 's';
+
+    card.innerHTML = `
+      <div class="questao-header">
+        <span class="q-numero">${num}</span>
+        <span class="q-badge badge-${q.nivel}">${q.nivel}</span>
+        <span class="q-enunciado-preview">${preview}</span>
+        <span class="q-check" title="Marcar como revisada">✓</span>
+        <span class="q-arrow">▾</span>
+      </div>
+      <div class="questao-body">
+        <div class="questao-inner">
+          <div class="q-divider"></div>
+          <div class="q-texto">${q.enun}</div>
+          <button class="gabarito-toggle">
+            <span class="gt-icon">🔒</span>
+            <span class="gt-label">Ver gabarito</span>
+          </button>
+          <div class="gabarito-conteudo">
+            <div class="gabarito-inner">${q.gab}</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Toggle questão
+    card.querySelector('.questao-header').addEventListener('click', (e) => {
+      if (e.target.classList.contains('q-check')) return;
+      card.classList.toggle('open');
+      card.querySelector('.questao-body').classList.toggle('open');
+    });
+
+    // Toggle gabarito
+    const gabBtn = card.querySelector('.gabarito-toggle');
+    const gabContent = card.querySelector('.gabarito-conteudo');
+    gabBtn.addEventListener('click', () => {
+      const isOpen = gabContent.classList.toggle('open');
+      gabBtn.classList.toggle('revealed', isOpen);
+      gabBtn.querySelector('.gt-icon').textContent = isOpen ? '🔓' : '🔒';
+      gabBtn.querySelector('.gt-label').textContent = isOpen ? 'Ocultar gabarito' : 'Ver gabarito';
+    });
+
+    // Marcar questão
+    const checkEl = card.querySelector('.q-check');
+    checkEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (marcadas.has(idx)) {
+        marcadas.delete(idx);
+        checkEl.classList.remove('marcada');
+        showToast('📖', 'Marcação removida');
+      } else {
+        marcadas.add(idx);
+        checkEl.classList.add('marcada');
+        showToast('✓', 'Questão revisada!');
+      }
+      atualizarProgresso();
+    });
+
+    sec.appendChild(card);
+  });
+
+  contEl.appendChild(sec);
+});
+
+// Contador
+document.getElementById('total-count').textContent = todasQuestoes.length;
+
+// ─── PROGRESSO ─────────────────────────────────────────────────────────────
+function atualizarProgresso() {
+  const total = todasQuestoes.length;
+  const feitas = marcadas.size;
+  const pct = Math.round((feitas / total) * 100);
+  document.getElementById('feitas-count').textContent = feitas;
+  document.getElementById('progresso-fill').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+}
+atualizarProgresso();
+
+// ─── FILTROS ────────────────────────────────────────────────────────────────
+document.querySelectorAll('.filtro-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const nivel = btn.dataset.nivel;
+    const temaFiltros = { "Juros Simples": true, "Equivalência": "Equivalência de Taxas", "Juro Exato": "Juro Exato e Comercial", "Valor Atual": "Valor Nominal e Valor Atual" };
+
+    document.querySelectorAll('.questao').forEach(card => {
+      const cn = card.dataset.nivel;
+      const ct = card.dataset.tema;
+      if (nivel === "Todos") { card.classList.remove('hidden'); return; }
+      if (temaFiltros[nivel]) {
+        const temaAlvo = temaFiltros[nivel] === true ? nivel : temaFiltros[nivel];
+        card.classList.toggle('hidden', ct !== temaAlvo);
+      } else {
+        card.classList.toggle('hidden', cn !== nivel);
+      }
+    });
+  });
+});
+
+// ─── TOAST ──────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(icon, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>

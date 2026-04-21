@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estatística Aplicada — Plano de Estudo para Prova 08/05</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f13;
+    --bg2: #16161d;
+    --bg3: #1e1e28;
+    --card: #1a1a24;
+    --border: #2a2a38;
+    --accent: #e8c547;
+    --accent2: #5b8cff;
+    --accent3: #ff6b6b;
+    --accent4: #4ecdc4;
+    --accent5: #a78bfa;
+    --text: #e8e8f0;
+    --text2: #9090a8;
+    --text3: #606078;
+    --green: #52d48a;
+    --orange: #ff9a3c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,197,71,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(232,197,71,.3);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 46px);
+    line-height: 1.15;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    color: var(--text2);
+    font-size: 14px;
+    max-width: 640px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+  .hero-stat strong { display: block; font-size: 22px; color: var(--accent); font-family: 'DM Serif Display', serif; }
+
+  /* ─── NAV TABS ─── */
+  .nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text2);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 14px 18px;
+    white-space: nowrap;
+    transition: all .2s;
+  }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main { padding: 40px; max-width: 1100px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ─── SECTION HEADER ─── */
+  .sec-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sec-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .sec-header p { color: var(--text2); font-size: 14px; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content: '';
+    width: 3px; height: 14px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+
+  /* ─── CRONOGRAMA ─── */
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+  }
+  .cal-day {
+    border-radius: 6px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform .15s, border-color .15s;
+  }
+  .cal-day:hover { transform: translateY(-2px); border-color: var(--text3); }
+  .cal-day .date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .cal-day .tipo { font-weight: 600; font-size: 12px; margin-bottom: 2px; }
+  .cal-day .tema { font-size: 11px; color: var(--text2); }
+  .cal-day .horas { font-family: 'DM Mono', monospace; font-size: 10px; margin-top: 6px; }
+
+  .tipo-teoria { background: rgba(91,140,255,.1); border-color: rgba(91,140,255,.3) !important; }
+  .tipo-teoria .tipo { color: var(--accent2); }
+  .tipo-pratica { background: rgba(78,205,196,.1); border-color: rgba(78,205,196,.3) !important; }
+  .tipo-pratica .tipo { color: var(--accent4); }
+  .tipo-revisao { background: rgba(232,197,71,.08); border-color: rgba(232,197,71,.25) !important; }
+  .tipo-revisao .tipo { color: var(--accent); }
+  .tipo-simulado { background: rgba(255,107,107,.1); border-color: rgba(255,107,107,.3) !important; }
+  .tipo-simulado .tipo { color: var(--accent3); }
+  .tipo-descanso { background: rgba(96,96,120,.1); }
+  .tipo-descanso .tipo { color: var(--text3); }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    font-size: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
+
+  /* ─── TÓPICO ACCORDION ─── */
+  .topic-block { margin-bottom: 14px; }
+  .topic-header {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color .2s;
+    user-select: none;
+  }
+  .topic-header:hover { border-color: var(--text3); }
+  .topic-header.open { border-color: var(--accent); border-radius: 6px 6px 0 0; }
+  .topic-header-left { display: flex; align-items: center; gap: 12px; }
+  .topic-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(232,197,71,.1);
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+  .topic-title { font-weight: 600; font-size: 15px; }
+  .topic-arrow { color: var(--text3); transition: transform .2s; font-size: 18px; }
+  .topic-header.open .topic-arrow { transform: rotate(180deg); color: var(--accent); }
+
+  .topic-body {
+    display: none;
+    border: 1px solid var(--accent);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 24px;
+    background: var(--card);
+  }
+  .topic-body.open { display: block; }
+
+  /* ─── TABS DENTRO DE TÓPICO ─── */
+  .sub-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .sub-tab {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all .15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sub-tab:hover { color: var(--text); }
+  .sub-tab.active { background: rgba(232,197,71,.1); border-color: var(--accent); color: var(--accent); }
+  .sub-content { display: none; }
+  .sub-content.active { display: block; }
+
+  /* ─── FÓRMULA BOX ─── */
+  .formula-box {
+    background: var(--bg);
+    border: 1px solid rgba(91,140,255,.3);
+    border-left: 3px solid var(--accent2);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: #c8d8ff;
+  }
+  .formula-label { font-size: 10px; color: var(--text3); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .1em; }
+
+  /* ─── TAGS ─── */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+  }
+  .tag-red { background: rgba(255,107,107,.12); color: var(--accent3); border: 1px solid rgba(255,107,107,.25); }
+  .tag-blue { background: rgba(91,140,255,.12); color: var(--accent2); border: 1px solid rgba(91,140,255,.25); }
+  .tag-green { background: rgba(82,212,138,.12); color: var(--green); border: 1px solid rgba(82,212,138,.25); }
+  .tag-yellow { background: rgba(232,197,71,.1); color: var(--accent); border: 1px solid rgba(232,197,71,.25); }
+  .tag-purple { background: rgba(167,139,250,.12); color: var(--accent5); border: 1px solid rgba(167,139,250,.25); }
+
+  /* ─── TABLE ─── */
+  .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--bg3);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,.02); }
+  .td-mono { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent2); }
+  .td-bold { font-weight: 600; color: #fff; }
+  .td-green { color: var(--green); font-weight: 600; }
+  .td-red { color: var(--accent3); }
+
+  /* ─── EXERCISE ─── */
+  .exercise {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin: 16px 0;
+    overflow: hidden;
+  }
+  .ex-header {
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .ex-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+  .ex-easy { background: rgba(82,212,138,.1); color: var(--green); }
+  .ex-med { background: rgba(255,154,60,.1); color: var(--orange); }
+  .ex-hard { background: rgba(255,107,107,.1); color: var(--accent3); }
+  .ex-body { padding: 18px; }
+  .ex-body p { margin-bottom: 10px; }
+  .ex-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all .15s;
+  }
+  .ex-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .ex-answer {
+    display: none;
+    margin-top: 14px;
+    padding: 14px;
+    background: var(--bg3);
+    border-radius: 4px;
+    border-left: 3px solid var(--green);
+    font-size: 13px;
+  }
+  .ex-answer.show { display: block; }
+  .step { margin-bottom: 8px; }
+  .step strong { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 11px; }
+
+  /* ─── SIMULADO ─── */
+  .simulado-q {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin: 12px 0;
+  }
+  .simulado-q .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+  .simulado-q p { margin-bottom: 10px; font-size: 14px; }
+  .simulado-gabarito {
+    display: none;
+    margin-top: 10px;
+    padding: 12px;
+    background: var(--bg);
+    border-radius: 4px;
+    border-left: 3px solid var(--accent4);
+    font-size: 13px;
+  }
+  .simulado-gabarito.show { display: block; }
+  .show-all-btn {
+    background: none;
+    border: 1px solid var(--accent4);
+    color: var(--accent4);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 8px 20px;
+    border-radius: 4px;
+    margin: 16px 0;
+    transition: all .2s;
+  }
+  .show-all-btn:hover { background: rgba(78,205,196,.1); }
+
+  /* ─── TABELA Z ─── */
+  .z-table-wrap { overflow: auto; max-height: 420px; }
+  .z-table {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+  }
+  .z-table th { font-size: 10px; padding: 7px 10px; position: sticky; top: 0; }
+  .z-table td { padding: 5px 10px; text-align: center; }
+  .z-table tr:hover td { background: rgba(232,197,71,.06); }
+  .z-highlight { background: rgba(232,197,71,.15) !important; color: var(--accent) !important; font-weight: 600; }
+
+  /* ─── STRATEGY ─── */
+  .strat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .strat-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px;
+  }
+  .strat-icon { font-size: 24px; margin-bottom: 10px; }
+  .strat-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #fff; }
+  .strat-card ul { list-style: none; }
+  .strat-card ul li { font-size: 13px; color: var(--text2); padding: 4px 0; border-bottom: 1px solid var(--border); }
+  .strat-card ul li:last-child { border-bottom: none; }
+  .strat-card ul li::before { content: '→ '; color: var(--accent); font-family: 'DM Mono', monospace; }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 13px; }
+  .progress-label { width: 160px; flex-shrink: 0; }
+  .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+  .progress-pct { width: 36px; text-align: right; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text2); }
+
+  /* ─── ALERT BOX ─── */
+  .alert {
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .alert-warn { background: rgba(255,154,60,.08); border: 1px solid rgba(255,154,60,.25); color: var(--orange); }
+  .alert-info { background: rgba(91,140,255,.08); border: 1px solid rgba(91,140,255,.25); color: var(--accent2); }
+  .alert-ok { background: rgba(82,212,138,.08); border: 1px solid rgba(82,212,138,.25); color: var(--green); }
+
+  /* ─── MISC ─── */
+  ul.styled { list-style: none; }
+  ul.styled li { padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text2); }
+  ul.styled li:last-child { border-bottom: none; }
+  ul.styled li::before { content: '▸ '; color: var(--accent4); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) {
+    .main { padding: 20px 16px; }
+    .hero { padding: 28px 20px 24px; }
+    .nav { padding: 0 16px; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .pill-red { background: rgba(255,107,107,.15); color: var(--accent3); }
+  .pill-green { background: rgba(82,212,138,.15); color: var(--green); }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Ciências Contábeis · UNICENTRO</div>
+  <h1>Estatística Aplicada<br><em>Plano de Estudo</em></h1>
+  <p class="hero-sub">Cronograma estratégico, teoria, exercícios e simulados para aprovação na prova de 08/05.</p>
+  <div class="hero-meta">
+    <div class="hero-stat"><strong>21</strong>dias úteis</div>
+    <div class="hero-stat"><strong>6</strong>blocos temáticos</div>
+    <div class="hero-stat"><strong>08/05</strong>data da prova</div>
+    <div class="hero-stat"><strong>2</strong>simulados completos</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSection('cronograma')">📅 Cronograma</button>
+  <button class="nav-btn" onclick="showSection('topicos')">📚 Tópicos</button>
+  <button class="nav-btn" onclick="showSection('exercicios')">✏️ Exercícios</button>
+  <button class="nav-btn" onclick="showSection('simulados')">🎯 Simulados</button>
+  <button class="nav-btn" onclick="showSection('tabelaz')">📊 Tabela Z</button>
+  <button class="nav-btn" onclick="showSection('estrategia')">⚡ Estratégia</button>
+</nav>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════ CRONOGRAMA -->
+<div id="cronograma" class="section active">
+  <div class="sec-header">
+    <h2>Cronograma Estratégico</h2>
+    <p>17/04 → 08/05 · Dividido em teoria, prática, revisão e simulados.</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(91,140,255,.6)"></div>Teoria</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(78,205,196,.6)"></div>Prática</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(232,197,71,.6)"></div>Revisão</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,107,107,.6)"></div>Simulado</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(96,96,120,.4)"></div>Descanso</div>
+  </div>
+
+  <div class="cal-grid" id="calGrid"></div>
+
+  <div class="card" style="margin-top:28px">
+    <div class="card-title">Lógica do Cronograma</div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Fase</th><th>Período</th><th>Foco</th><th>Horas/dia</th></tr>
+        <tr><td class="td-bold">Fase 1 — Base</td><td class="td-mono">17/04 – 24/04</td><td>Estatística Descritiva + Tendência Central</td><td class="td-green">1,5h</td></tr>
+        <tr><td class="td-bold">Fase 2 — Dispersão</td><td class="td-mono">25/04 – 30/04</td><td>Dispersão + Probabilidade + Distribuição Normal</td><td class="td-green">2h</td></tr>
+        <tr><td class="td-bold">Simulado 1</td><td class="td-mono">01/05</td><td>Tópicos 1–4</td><td class="td-green">2,5h</td></tr>
+        <tr><td class="td-bold">Fase 3 — Avançado</td><td class="td-mono">02/05 – 05/05</td><td>Inferência + Correlação + Regressão</td><td class="td-green">2h</td></tr>
+        <tr><td class="td-bold">Revisão Geral</td><td class="td-mono">06/05 – 07/05</td><td>Pontos fracos + revisão espaçada</td><td class="td-green">1,5h</td></tr>
+        <tr><td class="td-bold">Simulado 2</td><td class="td-mono">07/05 tarde</td><td>Prova completa sob tempo</td><td class="td-green">2,5h</td></tr>
+        <tr><td class="td-bold">Véspera da Prova</td><td class="td-mono">08/05 manhã</td><td>Só fórmulas — nada novo</td><td class="td-green">0,5h</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ TÓPICOS -->
+<div id="topicos" class="section">
+  <div class="sec-header">
+    <h2>Plano por Tópico</h2>
+    <p>Clique em cada tema para ver fórmulas, erros comuns e foco em dados agrupados.</p>
+  </div>
+
+  <!-- TÓPICO 1 -->
+  <div class="topic-block">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">T1</span>
+        <span class="topic-title">Estatística Descritiva</span>
+      </div>
+      <span class="topic-arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="showSub(this,'t1-teoria')">Teoria</button>
+        <button class="sub-tab" onclick="showSub(this,'t1-formulas')">Fórmulas</button>
+        <button class="sub-tab" onclick="showSub(this,'t1-erros')">Erros Comuns</button>
+      </div>
+      <div class="sub-content active" id="t1-teoria">
+        <p><strong style="color:#fff">O que cai em prova:</strong></p>
+        <ul class="styled">
+          <li>Construção de tabela de distribuição de frequências (f, fr, fac)</li>
+          <li>Classe, amplitude de classe, ponto médio de cada classe</li>
+          <li>Histograma: identificar barras, associar ao contexto</li>
+          <li>Polígono de frequência: ponto médio das classes</li>
+          <li>Ogiva (frequência acumulada relativa)</li>
+        </ul>
+        <div class="alert alert-warn">⚠ <span>Atenção especial: <strong>frequência relativa acumulada (frac)</strong> — muito cobrada em questões de percentil.</span></div>
+        <div class="two-col" style="margin-top:16px">
+          <div>
+            <p style="font-size:13px; color:var(--text2); margin-bottom:8px">Frequências a saber:</p>
+            <div class="tbl-wrap"><table>
+              <tr><th>Símbolo</th><th>Significado</th></tr>
+              <tr><td class="td-mono">f</td><td>Frequência absoluta</td></tr>
+              <tr><td class="td-mono">fr</td><td>Frequência relativa (f/n)</td></tr>
+              <tr><td class="td-mono">fa</td><td>Frequência acumulada</td></tr>
+              <tr><td class="td-mono">fra</td><td>Frequência relativa acumulada</td></tr>
+              <tr><td class="td-mono">n</td><td>Total de observações</td></tr>
+            </table></div>
+          </div>
+          <div>
+            <p style="font-size:13px; color:var(--text2); margin-bottom:8px">Amplitude da classe:</p>
+            <div class="formula-box">
+              <div class="formula-label">Amplitude de Classe (h)</div>
+              h = (Xmax − Xmin) ÷ k<br><br>
+              k ≈ √n  (Regra da raiz)<br>
+              k ≈ 1 + 3,3 · log(n)  (Sturges)
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sub-content" id="t1-formulas">
+        <div class="formula-box">
+          <div class="formula-label">Frequência Relativa</div>
+          fr = f / n
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Frequência Acumulada</div>
+          fa_i = fa_(i-1) + f_i
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Ponto Médio da Classe</div>
+          Pm = (Li + Ls) / 2  &nbsp;&nbsp;&nbsp; onde Li=limite inferior, Ls=limite superior
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Regra de Sturges (nº de classes)</div>
+          k = 1 + 3,3 · log(n)
+        </div>
+      </div>
+      <div class="sub-content" id="t1-erros">
+        <div class="alert alert-warn">⚠ <span><strong>Erro #1:</strong> Calcular amplitude total em vez de amplitude da classe.</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #2:</strong> Não fechar a frequência acumulada em n (100%).</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #3:</strong> Confundir histograma (barras adjacentes) com gráfico de barras separadas.</span></div>
+        <div class="alert alert-info">💡 <span><strong>Dica de prova:</strong> Sempre verifique se Σf = n e Σfr = 1 (ou 100%). Se não bater, tem erro.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TÓPICO 2 -->
+  <div class="topic-block">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">T2</span>
+        <span class="topic-title">Medidas de Tendência Central</span>
+      </div>
+      <span class="topic-arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="showSub(this,'t2-teoria')">Teoria</button>
+        <button class="sub-tab" onclick="showSub(this,'t2-formulas')">Fórmulas</button>
+        <button class="sub-tab" onclick="showSub(this,'t2-erros')">Erros Comuns</button>
+      </div>
+      <div class="sub-content active" id="t2-teoria">
+        <div class="alert alert-info">💡 <span><strong>Foco principal em prova:</strong> cálculo de média, mediana e moda para <u>dados agrupados em classes</u>.</span></div>
+        <div class="tbl-wrap" style="margin-top:14px"><table>
+          <tr><th>Medida</th><th>Dados Brutos</th><th>Dados Agrupados</th><th>Quando usar</th></tr>
+          <tr><td class="td-bold">Média</td><td>Σx/n</td><td>Σ(Pm·f)/n</td><td>Distribuição simétrica</td></tr>
+          <tr><td class="td-bold">Mediana</td><td>Valor central ordenado</td><td>Fórmula interpolação</td><td>Dados assimétricos</td></tr>
+          <tr><td class="td-bold">Moda</td><td>Valor mais frequente</td><td>Fórmula de Czuber</td><td>Valores repetidos</td></tr>
+        </table></div>
+        <p style="margin-top:16px; font-size:14px; color:var(--text2)"><strong style="color:#fff">Identificando a classe mediana:</strong> Encontre a primeira classe cuja frequência acumulada (fa) ≥ n/2. Essa é a classe mediana.</p>
+        <p style="margin-top:10px; font-size:14px; color:var(--text2)"><strong style="color:#fff">Identificando a classe modal:</strong> É a classe com maior frequência absoluta (f). A moda pertence a essa classe.</p>
+      </div>
+      <div class="sub-content" id="t2-formulas">
+        <div class="formula-box">
+          <div class="formula-label">Média Aritmética — Dados Brutos</div>
+          x̄ = (x₁ + x₂ + ... + xₙ) / n = Σxᵢ / n
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Média Aritmética — Dados Agrupados</div>
+          x̄ = Σ(Pmᵢ · fᵢ) / n<br>
+          Pm = ponto médio da classe = (Li + Ls) / 2
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Mediana — Dados Agrupados (Interpolação)</div>
+          Md = L_md + [(n/2 − F_ant) / f_md] · h<br><br>
+          L_md = limite inferior da classe mediana<br>
+          F_ant = frequência acumulada ANTES da classe mediana<br>
+          f_md = frequência da classe mediana<br>
+          h = amplitude da classe
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Moda — Czuber (dados agrupados)</div>
+          Mo = L_mo + [Δ₁ / (Δ₁ + Δ₂)] · h<br><br>
+          L_mo = limite inferior da classe modal<br>
+          Δ₁ = f_mo − f_anterior<br>
+          Δ₂ = f_mo − f_posterior<br>
+          h = amplitude da classe
+        </div>
+        <div class="alert alert-ok" style="margin-top:14px">✅ <span><strong>Macete Czuber:</strong> Δ₁ e Δ₂ são sempre positivos. Se der negativo, você subtraiu errado.</span></div>
+      </div>
+      <div class="sub-content" id="t2-erros">
+        <div class="alert alert-warn">⚠ <span><strong>Erro #1:</strong> Usar o limite superior em vez do inferior nas fórmulas de Md e Mo.</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #2:</strong> Usar a frequência relativa em vez da absoluta na fórmula da mediana.</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #3:</strong> Calcular Δ₁ como f_posterior − f_mo (sinal invertido).</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #4:</strong> Esquecer de usar o ponto médio na média de dados agrupados (usar limite inferior).</span></div>
+        <div class="alert alert-info">💡 <span><strong>Verificação:</strong> Em distribuição simétrica: Mo = Md = x̄. Em assimétrica positiva: Mo &lt; Md &lt; x̄.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TÓPICO 3 -->
+  <div class="topic-block">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">T3</span>
+        <span class="topic-title">Medidas de Dispersão</span>
+      </div>
+      <span class="topic-arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="showSub(this,'t3-teoria')">Teoria</button>
+        <button class="sub-tab" onclick="showSub(this,'t3-formulas')">Fórmulas</button>
+        <button class="sub-tab" onclick="showSub(this,'t3-erros')">Erros Comuns</button>
+      </div>
+      <div class="sub-content active" id="t3-teoria">
+        <div class="tbl-wrap"><table>
+          <tr><th>Medida</th><th>Fórmula Bruta</th><th>Interpreta como</th></tr>
+          <tr><td class="td-bold">Amplitude (A)</td><td class="td-mono">Xmax − Xmin</td><td>Dispersão total</td></tr>
+          <tr><td class="td-bold">Variância (s²)</td><td class="td-mono">Σ(xᵢ−x̄)²/(n−1)</td><td>Dispersão quadrática média</td></tr>
+          <tr><td class="td-bold">Desvio Padrão (s)</td><td class="td-mono">√s²</td><td>Dispersão na mesma unidade dos dados</td></tr>
+          <tr><td class="td-bold">CV</td><td class="td-mono">(s / x̄) · 100</td><td>Dispersão relativa (%)</td></tr>
+        </table></div>
+        <div class="alert alert-info" style="margin-top:16px">💡 <span><strong>CV como julgamento de homogeneidade:</strong> CV ≤ 15% = baixa dispersão (homogêneo) | CV 15–30% = média | CV &gt; 30% = alta dispersão (heterogêneo)</span></div>
+      </div>
+      <div class="sub-content" id="t3-formulas">
+        <div class="formula-box">
+          <div class="formula-label">Variância Amostral</div>
+          s² = Σ(xᵢ − x̄)² / (n − 1)
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Variância — Dados Agrupados</div>
+          s² = Σ[fᵢ · (Pmᵢ − x̄)²] / (n − 1)
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Desvio Padrão</div>
+          s = √s²
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Coeficiente de Variação</div>
+          CV = (s / x̄) · 100%
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Fórmula Computacional (variância — mais rápida)</div>
+          s² = [Σxᵢ² − (Σxᵢ)²/n] / (n − 1)
+        </div>
+      </div>
+      <div class="sub-content" id="t3-erros">
+        <div class="alert alert-warn">⚠ <span><strong>Erro #1:</strong> Dividir por n em vez de (n−1) na variância amostral.</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #2:</strong> Não elevar ao quadrado os desvios — calcular Σ(xᵢ−x̄) em vez de Σ(xᵢ−x̄)².</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #3:</strong> Calcular CV sem multiplicar por 100 (esquecer o %).</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #4:</strong> Em dados agrupados, usar xᵢ em vez do ponto médio Pmᵢ.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TÓPICO 4 -->
+  <div class="topic-block">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">T4</span>
+        <span class="topic-title">Probabilidade e Distribuição Normal</span>
+      </div>
+      <span class="topic-arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="showSub(this,'t4-teoria')">Teoria</button>
+        <button class="sub-tab" onclick="showSub(this,'t4-formulas')">Fórmulas</button>
+        <button class="sub-tab" onclick="showSub(this,'t4-erros')">Erros Comuns</button>
+      </div>
+      <div class="sub-content active" id="t4-teoria">
+        <p style="font-size:13px; margin-bottom:14px; color:var(--text2)">Em provas de Contabilidade, o foco é na <strong style="color:#fff">distribuição normal padronizada (Z)</strong> e não em probabilidade combinatória complexa.</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Conceito</th><th>Significado prático</th></tr>
+          <tr><td class="td-bold">Distribuição Normal</td><td>Curva simétrica em forma de sino, média = mediana = moda</td></tr>
+          <tr><td class="td-bold">Padronização (Z)</td><td>Transforma qualquer normal em N(0,1) para usar Tabela Z</td></tr>
+          <tr><td class="td-bold">Área sob a curva</td><td>Representa probabilidade. Área total = 1 (100%)</td></tr>
+          <tr><td class="td-bold">P(a &lt; X &lt; b)</td><td>Diferença de áreas na tabela Z</td></tr>
+        </table></div>
+        <div class="alert alert-info" style="margin-top:16px">💡 <span><strong>Regra empírica (68-95-99,7):</strong> μ±1σ → 68% | μ±2σ → 95% | μ±3σ → 99,7% dos dados.</span></div>
+      </div>
+      <div class="sub-content" id="t4-formulas">
+        <div class="formula-box">
+          <div class="formula-label">Padronização Z</div>
+          Z = (X − μ) / σ<br><br>
+          X = valor observado<br>
+          μ = média da população<br>
+          σ = desvio padrão da população
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Probabilidade entre dois valores</div>
+          P(a &lt; X &lt; b) = Φ(Z_b) − Φ(Z_a)<br>
+          onde Φ = área acumulada à esquerda na Tabela Z
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Área à direita (cauda superior)</div>
+          P(X &gt; a) = 1 − Φ(Z_a)
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Simetria da normal</div>
+          P(Z &lt; −z) = P(Z &gt; z) = 1 − Φ(z)
+        </div>
+      </div>
+      <div class="sub-content" id="t4-erros">
+        <div class="alert alert-warn">⚠ <span><strong>Erro #1:</strong> Esquecer de subtrair 0,5 quando a tabela Z fornece área do centro ao Z (em vez de 0 ao Z).</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #2:</strong> Não verificar se a tabela é acumulada à esquerda ou do centro.</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #3:</strong> Inverter a subtração: P(a&lt;X&lt;b) = Φ(Za) − Φ(Zb) (ordem errada).</span></div>
+        <div class="alert alert-ok">✅ <span>Antes de usar a Tabela Z, sempre desenhe a curva normal e pinte a área que você quer. Isso evita 90% dos erros.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TÓPICO 5 -->
+  <div class="topic-block">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">T5</span>
+        <span class="topic-title">Inferência Estatística</span>
+      </div>
+      <span class="topic-arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="showSub(this,'t5-teoria')">Teoria</button>
+        <button class="sub-tab" onclick="showSub(this,'t5-formulas')">Fórmulas</button>
+        <button class="sub-tab" onclick="showSub(this,'t5-erros')">Erros Comuns</button>
+      </div>
+      <div class="sub-content active" id="t5-teoria">
+        <div class="tbl-wrap"><table>
+          <tr><th>Conceito</th><th>Definição objetiva</th></tr>
+          <tr><td class="td-bold">Estimativa pontual</td><td>Usa x̄ para estimar μ da população</td></tr>
+          <tr><td class="td-bold">Intervalo de confiança</td><td>Faixa em que μ provavelmente está (com % de confiança)</td></tr>
+          <tr><td class="td-bold">Erro amostral (E)</td><td>Metade da largura do intervalo</td></tr>
+          <tr><td class="td-bold">H₀ (hipótese nula)</td><td>Afirmação de igualdade/status quo a ser testada</td></tr>
+          <tr><td class="td-bold">H₁ (hipótese alternativa)</td><td>O que você quer provar</td></tr>
+          <tr><td class="td-bold">p-valor</td><td>Probabilidade de obter resultado tão extremo se H₀ for verdadeira</td></tr>
+          <tr><td class="td-bold">α (nível de significância)</td><td>Limiar de rejeição (comum: 5% = 0,05)</td></tr>
+        </table></div>
+        <div class="alert alert-info" style="margin-top:14px">💡 <span><strong>Regra de decisão simples:</strong> Se |Z_calc| &gt; Z_crítico → Rejeita H₀. Se p-valor &lt; α → Rejeita H₀.</span></div>
+      </div>
+      <div class="sub-content" id="t5-formulas">
+        <div class="formula-box">
+          <div class="formula-label">Intervalo de Confiança para Média (σ conhecido)</div>
+          IC = x̄ ± Z_(α/2) · (σ / √n)
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Erro amostral máximo</div>
+          E = Z_(α/2) · (σ / √n)
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Z valores críticos mais usados</div>
+          90% confiança → Z = 1,645<br>
+          95% confiança → Z = 1,960<br>
+          99% confiança → Z = 2,576
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Estatística de teste Z (para média)</div>
+          Z_calc = (x̄ − μ₀) / (σ / √n)
+        </div>
+      </div>
+      <div class="sub-content" id="t5-erros">
+        <div class="alert alert-warn">⚠ <span><strong>Erro #1:</strong> Confundir σ (desvio padrão populacional) com s (desvio padrão amostral).</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #2:</strong> Não tirar raiz de n na fórmula do intervalo de confiança.</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #3:</strong> Usar Z = 1,96 para 90% de confiança (correto é 1,645).</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #4:</strong> Confundir "rejeita H₀" com "prova que H₁ é verdadeira". São coisas diferentes.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TÓPICO 6 -->
+  <div class="topic-block">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">T6</span>
+        <span class="topic-title">Correlação de Pearson e Regressão Linear</span>
+      </div>
+      <span class="topic-arrow">▾</span>
+    </div>
+    <div class="topic-body">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="showSub(this,'t6-teoria')">Teoria</button>
+        <button class="sub-tab" onclick="showSub(this,'t6-formulas')">Fórmulas</button>
+        <button class="sub-tab" onclick="showSub(this,'t6-erros')">Erros Comuns</button>
+      </div>
+      <div class="sub-content active" id="t6-teoria">
+        <div class="tbl-wrap"><table>
+          <tr><th>r de Pearson</th><th>Interpretação</th><th>Exemplo contábil</th></tr>
+          <tr><td class="td-mono">0,9 a 1,0</td><td class="td-green">Correlação forte positiva</td><td>Faturamento × Custo variável</td></tr>
+          <tr><td class="td-mono">0,5 a 0,9</td><td>Correlação moderada positiva</td><td>Vendas × Equipe comercial</td></tr>
+          <tr><td class="td-mono">0 a 0,5</td><td>Correlação fraca</td><td>Lucro × Estoque</td></tr>
+          <tr><td class="td-mono">-0,5 a 0</td><td>Correlação fraca negativa</td><td>—</td></tr>
+          <tr><td class="td-mono">-1 a -0,5</td><td class="td-red">Correlação forte negativa</td><td>Preço × Demanda</td></tr>
+        </table></div>
+        <div class="alert alert-info" style="margin-top:14px">💡 <span><strong>R² (coeficiente de determinação):</strong> R² = r² → percentual da variação de Y explicada por X. Ex: r=0,9 → R²=0,81 → 81% da variação explicada.</span></div>
+        <p style="margin-top:14px; font-size:13px; color:var(--text2)"><strong style="color:#fff">Regressão linear:</strong> Ŷ = a + bX &nbsp;→&nbsp; b é o coeficiente angular (quanto Y cresce para cada X adicional). a é o intercepto (valor de Y quando X=0).</p>
+      </div>
+      <div class="sub-content" id="t6-formulas">
+        <div class="formula-box">
+          <div class="formula-label">Correlação de Pearson</div>
+          r = [nΣXY − (ΣX)(ΣY)] / √{[nΣX² − (ΣX)²] · [nΣY² − (ΣY)²]}
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Coeficiente Angular da Reta de Regressão</div>
+          b = [nΣXY − (ΣX)(ΣY)] / [nΣX² − (ΣX)²]
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Intercepto</div>
+          a = Ȳ − b · X̄  &nbsp;&nbsp;&nbsp;  onde Ȳ = ΣY/n e X̄ = ΣX/n
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Equação da Reta de Regressão</div>
+          Ŷ = a + b · X<br>
+          Para prever: substitua X pelo valor desejado
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Coeficiente de Determinação</div>
+          R² = r²  (variação de Y explicada pela reta)
+        </div>
+      </div>
+      <div class="sub-content" id="t6-erros">
+        <div class="alert alert-warn">⚠ <span><strong>Erro #1:</strong> Confundir r (correlação) com R² (determinação). São interpretações diferentes.</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #2:</strong> Usar a equação ŷ = a + bx com valores de X fora do intervalo amostral (extrapolação indevida).</span></div>
+        <div class="alert alert-warn">⚠ <span><strong>Erro #3:</strong> Calcular b com o denominador errado (ΣX² em vez de nΣX²−(ΣX)²).</span></div>
+        <div class="alert alert-ok">✅ <span>Monte sempre uma tabela auxiliar com colunas: X, Y, X², Y², XY. Some cada coluna. Isso organiza todos os valores necessários.</span></div>
+      </div>
+    </div>
+  </div>
+</div><!-- fim topicos -->
+
+<!-- ══════════════════════════════════════════════ EXERCÍCIOS -->
+<div id="exercicios" class="section">
+  <div class="sec-header">
+    <h2>Treino Prático</h2>
+    <p>Exercícios progressivos com contexto contábil. Clique em "Ver Resolução" para conferir o passo a passo.</p>
+  </div>
+
+  <!-- EX: DESCRITIVA -->
+  <div class="card">
+    <div class="card-title">Estatística Descritiva</div>
+
+    <div class="exercise">
+      <div class="ex-header">
+        <span><strong>Ex. 1.1</strong> — Distribuição de Frequências</span>
+        <span class="ex-level ex-easy">FÁCIL</span>
+      </div>
+      <div class="ex-body">
+        <p>Uma empresa registrou os seguintes custos operacionais mensais (em R$ mil) ao longo de 10 meses: <strong>18, 22, 25, 19, 30, 27, 21, 24, 28, 26</strong>.</p>
+        <p>Organize em uma distribuição de frequências com 3 classes. Calcule f, fr e fa para cada classe.</p>
+        <button class="ex-toggle" onclick="toggleAnswer(this)">Ver Resolução ▾</button>
+        <div class="ex-answer">
+          <div class="step"><strong>PASSO 1 —</strong> Amplitude total: A = 30 − 18 = 12</div>
+          <div class="step"><strong>PASSO 2 —</strong> Amplitude de classe: h = 12 ÷ 3 = 4</div>
+          <div class="step"><strong>PASSO 3 —</strong> Classes: [18–22), [22–26), [26–30]</div>
+          <div class="tbl-wrap" style="margin-top:10px"><table>
+            <tr><th>Classe (R$ mil)</th><th>f</th><th>fr</th><th>fa</th><th>fra</th></tr>
+            <tr><td>[18 – 22)</td><td>3</td><td>0,30 (30%)</td><td>3</td><td>30%</td></tr>
+            <tr><td>[22 – 26)</td><td>4</td><td>0,40 (40%)</td><td>7</td><td>70%</td></tr>
+            <tr><td>[26 – 30]</td><td>3</td><td>0,30 (30%)</td><td>10</td><td>100%</td></tr>
+            <tr><td><strong>Total</strong></td><td class="td-green">10</td><td class="td-green">1,00</td><td>—</td><td>—</td></tr>
+          </table></div>
+          <div class="alert alert-ok" style="margin-top:10px">✅ Verificação: Σf = 10 = n ✓ e Σfr = 1,00 ✓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-header">
+        <span><strong>Ex. 1.2</strong> — Frequências com Sturges</span>
+        <span class="ex-level ex-med">MÉDIO</span>
+      </div>
+      <div class="ex-body">
+        <p>O departamento de RH coletou os salários de 25 funcionários (R$): 1.800, 2.100, 2.400, 1.950, 3.200, 2.800, 2.600, 1.700, 3.500, 2.200, 2.900, 3.100, 1.850, 2.300, 2.750, 3.300, 2.050, 1.980, 2.650, 3.000, 2.450, 1.900, 2.700, 3.400, 2.150.</p>
+        <p>Determine: (a) número de classes pela regra de Sturges; (b) amplitude da classe; (c) monte a tabela de distribuição de frequências.</p>
+        <button class="ex-toggle" onclick="toggleAnswer(this)">Ver Resolução ▾</button>
+        <div class="ex-answer">
+          <div class="step"><strong>(a)</strong> k = 1 + 3,3 · log(25) = 1 + 3,3 · 1,3979 = 1 + 4,61 ≈ <strong>5 classes</strong></div>
+          <div class="step"><strong>(b)</strong> Xmin = 1.700 | Xmax = 3.500 | A = 1.800 | h = 1.800 ÷ 5 = <strong>360</strong></div>
+          <div class="tbl-wrap" style="margin-top:10px"><table>
+            <tr><th>Classe (R$)</th><th>f</th><th>fr (%)</th><th>fa</th></tr>
+            <tr><td>[1.700 – 2.060)</td><td>5</td><td>20%</td><td>5</td></tr>
+            <tr><td>[2.060 – 2.420)</td><td>6</td><td>24%</td><td>11</td></tr>
+            <tr><td>[2.420 – 2.780)</td><td>7</td><td>28%</td><td>18</td></tr>
+            <tr><td>[2.780 – 3.140)</td><td>5</td><td>20%</td><td>23</td></tr>
+            <tr><td>[3.140 – 3.500]</td><td>2</td><td>8%</td><td>25</td></tr>
+            <tr><td><strong>Total</strong></td><td class="td-green">25</td><td class="td-green">100%</td><td>—</td></tr>
+          </table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX: TENDÊNCIA CENTRAL -->
+  <div class="card">
+    <div class="card-title">Medidas de Tendência Central</div>
+
+    <div class="exercise">
+      <div class="ex-header">
+        <span><strong>Ex. 2.1</strong> — Média, Mediana e Moda (Dados Agrupados)</span>
+        <span class="ex-level ex-med">MÉDIO</span>
+      </div>
+      <div class="ex-body">
+        <p>Tabela de faturamento mensal (em R$ mil) de 40 empresas de pequeno porte:</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Faturamento (R$ mil)</th><th>f</th></tr>
+          <tr><td>[10 – 20)</td><td>6</td></tr>
+          <tr><td>[20 – 30)</td><td>10</td></tr>
+          <tr><td>[30 – 40)</td><td>14</td></tr>
+          <tr><td>[40 – 50)</td><td>7</td></tr>
+          <tr><td>[50 – 60]</td><td>3</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>40</strong></td></tr>
+        </table></div>
+        <p>Calcule: (a) Média; (b) Mediana; (c) Moda (Czuber).</p>
+        <button class="ex-toggle" onclick="toggleAnswer(this)">Ver Resolução ▾</button>
+        <div class="ex-answer">
+          <p><strong style="color:var(--accent)">Tabela auxiliar (Pm e f·Pm):</strong></p>
+          <div class="tbl-wrap"><table>
+            <tr><th>Classe</th><th>f</th><th>Pm</th><th>f·Pm</th><th>fa</th></tr>
+            <tr><td>[10–20)</td><td>6</td><td>15</td><td>90</td><td>6</td></tr>
+            <tr><td>[20–30)</td><td>10</td><td>25</td><td>250</td><td>16</td></tr>
+            <tr><td>[30–40)</td><td>14</td><td>35</td><td>490</td><td>30</td></tr>
+            <tr><td>[40–50)</td><td>7</td><td>45</td><td>315</td><td>37</td></tr>
+            <tr><td>[50–60]</td><td>3</td><td>55</td><td>165</td><td>40</td></tr>
+            <tr><td><strong>Σ</strong></td><td>40</td><td>—</td><td class="td-green">1.310</td><td>—</td></tr>
+          </table></div>
+          <div class="step" style="margin-top:12px"><strong>(a) MÉDIA:</strong> x̄ = 1.310 ÷ 40 = <strong style="color:var(--green)">32,75</strong> (R$ 32.750)</div>
+          <div class="step"><strong>(b) MEDIANA:</strong> n/2 = 20 → fa ≥ 20 está na classe [30–40)
+            <br>L_md = 30 | F_ant = 16 | f_md = 14 | h = 10
+            <br>Md = 30 + [(20−16)/14] · 10 = 30 + (4/14)·10 = 30 + 2,857 = <strong style="color:var(--green)">32,86</strong></div>
+          <div class="step"><strong>(c) MODA (Czuber):</strong> Classe modal = [30–40) com f=14
+            <br>Δ₁ = 14 − 10 = 4 | Δ₂ = 14 − 7 = 7
+            <br>Mo = 30 + [4/(4+7)] · 10 = 30 + (4/11)·10 = 30 + 3,636 = <strong style="color:var(--green)">33,64</strong></div>
+          <div class="alert alert-ok" style="margin-top:10px">✅ Mo ≈ Md ≈ x̄ → distribuição aproximadamente simétrica, levemente assimétrica positiva (x̄ &lt; Mo).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX: DISPERSÃO -->
+  <div class="card">
+    <div class="card-title">Medidas de Dispersão</div>
+
+    <div class="exercise">
+      <div class="ex-header">
+        <span><strong>Ex. 3.1</strong> — Variância, DP e CV</span>
+        <span class="ex-level ex-med">MÉDIO</span>
+      </div>
+      <div class="ex-body">
+        <p>Dois departamentos têm os seguintes custos mensais (R$ mil):</p>
+        <p><strong>Depto A:</strong> 45, 48, 52, 47, 53, 50, 49, 46<br><strong>Depto B:</strong> 20, 35, 60, 25, 70, 40, 55, 15</p>
+        <p>Calcule a média, desvio padrão e CV de cada departamento. Qual é mais homogêneo?</p>
+        <button class="ex-toggle" onclick="toggleAnswer(this)">Ver Resolução ▾</button>
+        <div class="ex-answer">
+          <div class="step"><strong>DEPTO A:</strong> x̄ = (45+48+52+47+53+50+49+46)/8 = 390/8 = <strong>48,75</strong></div>
+          <div class="step">Desvios²: (45−48,75)²=14,06 | (48−48,75)²=0,56 | (52−48,75)²=10,56 | (47−48,75)²=3,06 | (53−48,75)²=18,06 | (50−48,75)²=1,56 | (49−48,75)²=0,06 | (46−48,75)²=7,56</div>
+          <div class="step">Σ(xᵢ−x̄)² = 55,50 → s²_A = 55,50/7 = 7,93 → s_A = √7,93 ≈ <strong>2,82</strong> → CV_A = 2,82/48,75 · 100 ≈ <strong style="color:var(--green)">5,8%</strong></div>
+          <div class="step"><strong>DEPTO B:</strong> x̄ = (20+35+60+25+70+40+55+15)/8 = 320/8 = <strong>40,0</strong></div>
+          <div class="step">s²_B = [(20²+35²+...+15²) − (320²/8)] / 7 = [15.100 − 12.800] / 7 = 2.300/7 ≈ 328,57 → s_B ≈ <strong>18,12</strong> → CV_B ≈ <strong style="color:var(--accent3)">45,3%</strong></div>
+          <div class="alert alert-ok" style="margin-top:10px">✅ <strong>Depto A é mais homogêneo</strong> (CV=5,8% &lt; 15%). Depto B tem alta variabilidade (CV=45,3% &gt; 30%).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX: NORMAL -->
+  <div class="card">
+    <div class="card-title">Distribuição Normal</div>
+    <div class="exercise">
+      <div class="ex-header">
+        <span><strong>Ex. 4.1</strong> — Probabilidade com Tabela Z</span>
+        <span class="ex-level ex-med">MÉDIO</span>
+      </div>
+      <div class="ex-body">
+        <p>O lucro mensal de uma rede de franquias segue distribuição normal com μ = R$ 80.000 e σ = R$ 12.000. Calcule a probabilidade de uma unidade ter lucro:</p>
+        <p><strong>(a)</strong> entre R$ 68.000 e R$ 92.000<br><strong>(b)</strong> acima de R$ 98.000<br><strong>(c)</strong> abaixo de R$ 65.000</p>
+        <button class="ex-toggle" onclick="toggleAnswer(this)">Ver Resolução ▾</button>
+        <div class="ex-answer">
+          <div class="step"><strong>(a)</strong> Za = (68.000−80.000)/12.000 = −1,00 | Zb = (92.000−80.000)/12.000 = +1,00
+          <br>P(−1 &lt; Z &lt; 1) = Φ(1,00) − Φ(−1,00) = 0,8413 − 0,1587 = <strong style="color:var(--green)">0,8413 − 0,1587 = 0,6826 (68,26%)</strong></div>
+          <div class="step"><strong>(b)</strong> Z = (98.000−80.000)/12.000 = 1,50
+          <br>P(X &gt; 98.000) = 1 − Φ(1,50) = 1 − 0,9332 = <strong style="color:var(--green)">0,0668 (6,68%)</strong></div>
+          <div class="step"><strong>(c)</strong> Z = (65.000−80.000)/12.000 = −1,25
+          <br>P(X &lt; 65.000) = Φ(−1,25) = 1 − Φ(1,25) = 1 − 0,8944 = <strong style="color:var(--green)">0,1056 (10,56%)</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX: REGRESSÃO -->
+  <div class="card">
+    <div class="card-title">Correlação e Regressão</div>
+    <div class="exercise">
+      <div class="ex-header">
+        <span><strong>Ex. 6.1</strong> — Regressão Linear Completa</span>
+        <span class="ex-level ex-hard">DIFÍCIL</span>
+      </div>
+      <div class="ex-body">
+        <p>Um contador coletou dados de 5 lojas sobre investimento em marketing (X, R$ mil) e faturamento (Y, R$ mil):</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Loja</th><th>X</th><th>Y</th></tr>
+          <tr><td>1</td><td>2</td><td>20</td></tr>
+          <tr><td>2</td><td>4</td><td>30</td></tr>
+          <tr><td>3</td><td>5</td><td>38</td></tr>
+          <tr><td>4</td><td>7</td><td>50</td></tr>
+          <tr><td>5</td><td>8</td><td>52</td></tr>
+        </table></div>
+        <p>Calcule: (a) r de Pearson; (b) equação da reta de regressão; (c) previsão de Y para X=6; (d) R² e interpretação.</p>
+        <button class="ex-toggle" onclick="toggleAnswer(this)">Ver Resolução ▾</button>
+        <div class="ex-answer">
+          <p><strong style="color:var(--accent)">Tabela auxiliar:</strong></p>
+          <div class="tbl-wrap"><table>
+            <tr><th>Loja</th><th>X</th><th>Y</th><th>X²</th><th>Y²</th><th>XY</th></tr>
+            <tr><td>1</td><td>2</td><td>20</td><td>4</td><td>400</td><td>40</td></tr>
+            <tr><td>2</td><td>4</td><td>30</td><td>16</td><td>900</td><td>120</td></tr>
+            <tr><td>3</td><td>5</td><td>38</td><td>25</td><td>1.444</td><td>190</td></tr>
+            <tr><td>4</td><td>7</td><td>50</td><td>49</td><td>2.500</td><td>350</td></tr>
+            <tr><td>5</td><td>8</td><td>52</td><td>64</td><td>2.704</td><td>416</td></tr>
+            <tr><td><strong>Σ</strong></td><td class="td-green">26</td><td class="td-green">190</td><td class="td-green">158</td><td class="td-green">7.948</td><td class="td-green">1.116</td></tr>
+          </table></div>
+          <div class="step" style="margin-top:12px"><strong>(a) r de Pearson:</strong>
+          <br>Numerador: 5·1.116 − 26·190 = 5.580 − 4.940 = 640
+          <br>Denom_x: 5·158 − 26² = 790 − 676 = 114
+          <br>Denom_y: 5·7.948 − 190² = 39.740 − 36.100 = 3.640
+          <br>r = 640 / √(114 · 3.640) = 640 / √414.960 = 640 / 644,17 ≈ <strong style="color:var(--green)">0,994</strong> → Correlação muito forte positiva</div>
+          <div class="step"><strong>(b) Regressão:</strong>
+          <br>b = 640 / 114 ≈ <strong>5,614</strong>
+          <br>X̄ = 26/5 = 5,2 | Ȳ = 190/5 = 38
+          <br>a = 38 − 5,614 · 5,2 = 38 − 29,19 ≈ <strong>8,81</strong>
+          <br>Equação: <strong style="color:var(--accent)">Ŷ = 8,81 + 5,614 · X</strong></div>
+          <div class="step"><strong>(c) Previsão para X=6:</strong> Ŷ = 8,81 + 5,614 · 6 = 8,81 + 33,68 ≈ <strong style="color:var(--green)">R$ 42,49 mil</strong></div>
+          <div class="step"><strong>(d) R²</strong> = 0,994² ≈ <strong style="color:var(--green)">0,988 → 98,8%</strong> da variação no faturamento é explicada pelo investimento em marketing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- fim exercicios -->
+
+<!-- ══════════════════════════════════════════════ SIMULADOS -->
+<div id="simulados" class="section">
+  <div class="sec-header">
+    <h2>Simulados</h2>
+    <p>Simulado 1 (metade do cronograma · ~01/05) e Simulado 2 (pré-prova · ~07/05). Tente resolver antes de ver o gabarito.</p>
+  </div>
+
+  <!-- SIMULADO 1 -->
+  <div class="card">
+    <div class="card-title">Simulado 1 — Tópicos T1 a T4 · Aplicar em ~01/05</div>
+    <button class="show-all-btn" onclick="toggleAllGabarito('sim1')">Mostrar todo o gabarito</button>
+
+    <div class="simulado-q" data-sim="sim1">
+      <div class="q-num">QUESTÃO 01 · Distribuição de Frequências</div>
+      <p>O prazo médio de recebimento (dias) de 20 clientes de uma empresa foi: 15, 22, 18, 30, 25, 12, 28, 20, 17, 35, 23, 16, 29, 24, 19, 32, 21, 27, 14, 26. Construa uma tabela com 4 classes. Qual é a frequência relativa da 2ª classe?</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        A = 35−12 = 23 | h = 23/4 ≈ 6 → usar h=6. Classes: [12–18), [18–24), [24–30), [30–36].<br>
+        f: 4, 6, 7, 3 → <strong>fr da 2ª classe = 6/20 = 0,30 = 30%</strong>
+      </div>
+    </div>
+
+    <div class="simulado-q" data-sim="sim1">
+      <div class="q-num">QUESTÃO 02 · Tendência Central (Dados Agrupados)</div>
+      <p>Salários de 50 funcionários (R$):</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Classe</th><th>f</th></tr>
+        <tr><td>[1.500–2.000)</td><td>8</td></tr>
+        <tr><td>[2.000–2.500)</td><td>15</td></tr>
+        <tr><td>[2.500–3.000)</td><td>18</td></tr>
+        <tr><td>[3.000–3.500)</td><td>6</td></tr>
+        <tr><td>[3.500–4.000]</td><td>3</td></tr>
+      </table></div>
+      <p>Calcule média, mediana e moda (Czuber).</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        Σ(Pm·f): 1.750·8 + 2.250·15 + 2.750·18 + 3.250·6 + 3.750·3 = 14.000+33.750+49.500+19.500+11.250 = 128.000<br>
+        <strong>Média = 128.000/50 = R$ 2.560,00</strong><br><br>
+        Mediana: n/2=25 → fa ≥ 25 está em [2.500–3.000), F_ant=23, f_md=18<br>
+        <strong>Md = 2.500 + [(25−23)/18]·500 = 2.500 + 55,56 = R$ 2.555,56</strong><br><br>
+        Moda: classe modal [2.500–3.000) Δ₁=18−15=3, Δ₂=18−6=12<br>
+        <strong>Mo = 2.500 + [3/(3+12)]·500 = 2.500+100 = R$ 2.600,00</strong>
+      </div>
+    </div>
+
+    <div class="simulado-q" data-sim="sim1">
+      <div class="q-num">QUESTÃO 03 · Dispersão</div>
+      <p>As receitas trimestrais (R$ mil) de uma empresa foram: 120, 145, 110, 160, 135, 155. Calcule o desvio padrão e o coeficiente de variação. A empresa é homogênea?</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        x̄ = 825/6 = 137,5<br>
+        Σ(xᵢ−x̄)² = (120−137,5)²+(145−137,5)²+(110−137,5)²+(160−137,5)²+(135−137,5)²+(155−137,5)²<br>
+        = 306,25+56,25+756,25+506,25+6,25+306,25 = 1.937,5<br>
+        s² = 1.937,5/5 = 387,5 → <strong>s = √387,5 ≈ 19,69</strong><br>
+        <strong>CV = 19,69/137,5 · 100 ≈ 14,3%</strong> → CV &lt; 15% → empresa <strong>homogênea</strong>.
+      </div>
+    </div>
+
+    <div class="simulado-q" data-sim="sim1">
+      <div class="q-num">QUESTÃO 04 · Distribuição Normal</div>
+      <p>O tempo de processamento de um pedido segue distribuição normal com μ = 5 dias e σ = 1,2 dias. Qual a probabilidade de um pedido ser processado em menos de 3,5 dias?</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        Z = (3,5 − 5) / 1,2 = −1,5/1,2 = −1,25<br>
+        P(X &lt; 3,5) = Φ(−1,25) = 1 − Φ(1,25) = 1 − 0,8944 = <strong>0,1056 → 10,56%</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULADO 2 -->
+  <div class="card">
+    <div class="card-title">Simulado 2 — Prova Completa (todos os tópicos) · Aplicar em ~07/05</div>
+    <div class="alert alert-warn">⚠ <span>Reserve <strong>2 horas</strong> sem interrupção. Simule condição real de prova. Só veja o gabarito depois.</span></div>
+    <button class="show-all-btn" onclick="toggleAllGabarito('sim2')" style="margin-top:14px">Mostrar todo o gabarito</button>
+
+    <div class="simulado-q" data-sim="sim2">
+      <div class="q-num">QUESTÃO 01 · Distribuição de Frequências (2,5 pts)</div>
+      <p>Um auditor registrou os valores de inconsistências encontradas (R$) em 30 amostras de notas fiscais: 150, 320, 480, 210, 560, 390, 270, 440, 180, 610, 350, 490, 230, 370, 520, 290, 410, 170, 540, 300, 460, 200, 580, 330, 420, 260, 500, 190, 360, 430.<br>
+      (a) Determine o número de classes pela Regra de Sturges.<br>
+      (b) Monte a tabela de distribuição de frequências com f, fr (%), fa e fra.<br>
+      (c) Qual o percentual de amostras com inconsistência abaixo de R$ 400?</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        <strong>(a)</strong> k = 1 + 3,3·log(30) = 1 + 3,3·1,477 = 1+4,87 ≈ <strong>5 classes</strong><br>
+        Xmin=150, Xmax=610, A=460, h=460/5=92 → arredondamos para <strong>h=100</strong><br><br>
+        <strong>(b)</strong><br>
+        [150–250): f=5, fr=16,7%, fa=5, fra=16,7%<br>
+        [250–350): f=7, fr=23,3%, fa=12, fra=40,0%<br>
+        [350–450): f=10, fr=33,3%, fa=22, fra=73,3%<br>
+        [450–550): f=6, fr=20,0%, fa=28, fra=93,3%<br>
+        [550–650]: f=2, fr=6,7%, fa=30, fra=100%<br><br>
+        <strong>(c)</strong> Amostras &lt; R$ 400 = fa até classe [350–450) parcial... Pela fra: até [350–450) são 22 amostras (R$ 350–450 inclui até 400 parcialmente). Considerando [150–350) = 12 amostras = <strong>40%</strong> com certeza abaixo de R$ 350. Para R$ 400 (metade da 3ª classe): interpolação → 40% + (50/100)·33,3% ≈ <strong>56,7%</strong>
+      </div>
+    </div>
+
+    <div class="simulado-q" data-sim="sim2">
+      <div class="q-num">QUESTÃO 02 · Medidas Centrais e Dispersão (2,5 pts)</div>
+      <p>Produção diária (unidades) de uma linha de manufatura registrada em classes:</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Produção</th><th>f</th></tr>
+        <tr><td>[100–120)</td><td>5</td></tr>
+        <tr><td>[120–140)</td><td>12</td></tr>
+        <tr><td>[140–160)</td><td>20</td></tr>
+        <tr><td>[160–180)</td><td>10</td></tr>
+        <tr><td>[180–200]</td><td>3</td></tr>
+      </table></div>
+      <p>Calcule: (a) Média; (b) Mediana; (c) Moda; (d) Variância; (e) CV. Classifique a homogeneidade.</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        n=50 | Pms: 110,130,150,170,190<br>
+        Σ(Pm·f) = 550+1.560+3.000+1.700+570 = 7.380<br>
+        <strong>(a) x̄ = 7.380/50 = 147,6 unid.</strong><br><br>
+        <strong>(b) Mediana:</strong> n/2=25 → fa ≥ 25 em [140–160), F_ant=17, f_md=20<br>
+        Md = 140 + [(25−17)/20]·20 = 140 + 8 = <strong>148,0</strong><br><br>
+        <strong>(c) Moda:</strong> classe modal [140–160), Δ₁=20−12=8, Δ₂=20−10=10<br>
+        Mo = 140 + [8/(8+10)]·20 = 140 + 8,89 = <strong>148,89</strong><br><br>
+        <strong>(d) Variância:</strong> Σ[f·(Pm−x̄)²]: 5·(110−147,6)²+12·(130−147,6)²+20·(150−147,6)²+10·(170−147,6)²+3·(190−147,6)²<br>
+        = 5·1.413,76+12·309,76+20·5,76+10·501,76+3·1.797,76<br>
+        = 7.068,8+3.717,12+115,2+5.017,6+5.393,28 = 21.312<br>
+        s² = 21.312/49 ≈ <strong>434,9</strong> → s ≈ <strong>20,85</strong><br><br>
+        <strong>(e) CV = 20,85/147,6 · 100 ≈ 14,1%</strong> → &lt; 15% → <strong>Distribuição homogênea</strong>
+      </div>
+    </div>
+
+    <div class="simulado-q" data-sim="sim2">
+      <div class="q-num">QUESTÃO 03 · Distribuição Normal e Inferência (2,5 pts)</div>
+      <p>O custo de estoque diário de um atacadista segue distribuição normal com μ = R$ 25.000 e σ = R$ 3.500.<br>
+      (a) P(custo &gt; R$ 30.000);<br>
+      (b) P(R$ 20.000 &lt; custo &lt; R$ 28.500);<br>
+      (c) Um analista afirma que a média real é R$ 26.500. Com uma amostra de 49 dias, x̄ = R$ 25.800. Usando α = 5%, teste se há evidência de que a média é diferente de R$ 25.000. [σ = 3.500]</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        <strong>(a)</strong> Z = (30.000−25.000)/3.500 = 1,43 → P(Z&gt;1,43) = 1−0,9236 = <strong>0,0764 (7,64%)</strong><br><br>
+        <strong>(b)</strong> Za=(20.000−25.000)/3.500=−1,43 | Zb=(28.500−25.000)/3.500=1,00<br>
+        P = Φ(1,00)−Φ(−1,43) = 0,8413−0,0764 = <strong>0,7649 (76,49%)</strong><br><br>
+        <strong>(c) Teste de hipóteses:</strong><br>
+        H₀: μ = 25.000 | H₁: μ ≠ 25.000 (bicaudal)<br>
+        Z_calc = (25.800−25.000)/(3.500/√49) = 800/500 = <strong>1,60</strong><br>
+        Z_crítico para α=5% bicaudal = ±1,96<br>
+        |1,60| &lt; 1,96 → <strong>Não rejeita H₀</strong>. Não há evidência estatística suficiente de que a média difere de R$ 25.000.
+      </div>
+    </div>
+
+    <div class="simulado-q" data-sim="sim2">
+      <div class="q-num">QUESTÃO 04 · Correlação e Regressão (2,5 pts)</div>
+      <p>Dados de 6 filiais: horas de treinamento (X) e % de erros contábeis (Y):</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Filial</th><th>X (horas)</th><th>Y (%)</th></tr>
+        <tr><td>A</td><td>10</td><td>8</td></tr>
+        <tr><td>B</td><td>20</td><td>6</td></tr>
+        <tr><td>C</td><td>30</td><td>5</td></tr>
+        <tr><td>D</td><td>40</td><td>3</td></tr>
+        <tr><td>E</td><td>50</td><td>2</td></tr>
+        <tr><td>F</td><td>60</td><td>1</td></tr>
+      </table></div>
+      <p>Calcule r de Pearson, a equação de regressão e estime o % de erros para 35 horas de treinamento.</p>
+      <button class="ex-toggle" onclick="toggleSimGab(this)">Ver Gabarito ▾</button>
+      <div class="simulado-gabarito">
+        n=6, ΣX=210, ΣY=25, ΣX²=9.100, ΣY²=139, ΣXY=665<br><br>
+        Numerador r: 6·665−210·25 = 3.990−5.250 = −1.260<br>
+        Denom_x: 6·9.100−210² = 54.600−44.100 = 10.500<br>
+        Denom_y: 6·139−25² = 834−625 = 209<br>
+        r = −1.260/√(10.500·209) = −1.260/√2.194.500 = −1.260/1.481,4 ≈ <strong>−0,851</strong> → Correlação forte negativa<br><br>
+        b = −1.260/10.500 ≈ <strong>−0,12</strong><br>
+        X̄=35, Ȳ=25/6≈4,167<br>
+        a = 4,167−(−0,12)·35 = 4,167+4,2 = <strong>8,367</strong><br>
+        Equação: <strong>Ŷ = 8,367 − 0,12·X</strong><br><br>
+        Para X=35: Ŷ = 8,367−0,12·35 = 8,367−4,2 = <strong>4,17%</strong> de erros.<br>
+        R² = 0,851² ≈ 0,724 → 72,4% da variação nos erros é explicada pelas horas de treinamento.
+      </div>
+    </div>
+  </div>
+</div><!-- fim simulados -->
+
+<!-- ══════════════════════════════════════════════ TABELA Z -->
+<div id="tabelaz" class="section">
+  <div class="sec-header">
+    <h2>Tabela Z — Distribuição Normal Padrão</h2>
+    <p>Área acumulada à esquerda de Z. P(Z ≤ z) = Φ(z).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Como usar — Passo a Passo</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Passo</th><th>O que fazer</th><th>Exemplo</th></tr>
+      <tr><td class="td-bold">1</td><td>Calcule Z = (X − μ) / σ</td><td>Z = (92−80)/12 = 1,00</td></tr>
+      <tr><td class="td-bold">2</td><td>Identifique a linha (1ª casa decimal de Z)</td><td>Linha "1.0"</td></tr>
+      <tr><td class="td-bold">3</td><td>Identifique a coluna (2ª casa decimal)</td><td>Coluna "0.00"</td></tr>
+      <tr><td class="td-bold">4</td><td>Leia o valor na interseção</td><td>Φ(1,00) = 0,8413</td></tr>
+      <tr><td class="td-bold">5</td><td>Interprete conforme a área pedida</td><td>P(X ≤ 92) = 84,13%</td></tr>
+    </table></div>
+    <div class="two-col" style="margin-top:20px">
+      <div>
+        <p style="font-size:13px; font-weight:600; margin-bottom:10px; color:#fff">Situações frequentes em prova:</p>
+        <div class="formula-box"><div class="formula-label">Área à ESQUERDA de Z (direto)</div>P(X &lt; a) = Φ(Z_a)</div>
+        <div class="formula-box"><div class="formula-label">Área à DIREITA de Z</div>P(X &gt; a) = 1 − Φ(Z_a)</div>
+        <div class="formula-box"><div class="formula-label">Área ENTRE dois valores</div>P(a &lt; X &lt; b) = Φ(Z_b) − Φ(Z_a)</div>
+        <div class="formula-box"><div class="formula-label">Z negativo (simetria)</div>Φ(−Z) = 1 − Φ(Z)</div>
+      </div>
+      <div>
+        <p style="font-size:13px; font-weight:600; margin-bottom:10px; color:#fff">Valores Z mais usados em prova:</p>
+        <div class="tbl-wrap"><table>
+          <tr><th>Z</th><th>Φ(Z)</th><th>Uso</th></tr>
+          <tr><td class="td-mono">1,00</td><td class="td-green">0,8413</td><td>Regra 68%</td></tr>
+          <tr><td class="td-mono">1,28</td><td class="td-green">0,8997</td><td>90% unilateral</td></tr>
+          <tr><td class="td-mono">1,645</td><td class="td-green">0,9500</td><td>IC 90%</td></tr>
+          <tr><td class="td-mono">1,96</td><td class="td-green">0,9750</td><td>IC 95%</td></tr>
+          <tr><td class="td-mono">2,00</td><td class="td-green">0,9772</td><td>Regra 95% aprox.</td></tr>
+          <tr><td class="td-mono">2,576</td><td class="td-green">0,9950</td><td>IC 99%</td></tr>
+          <tr><td class="td-mono">3,00</td><td class="td-green">0,9987</td><td>Regra 99,7%</td></tr>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tabela Z Completa (0,00 a 3,09)</div>
+    <div class="z-table-wrap">
+      <table class="z-table" id="ztable">
+        <thead><tr id="z-header"><th>Z</th></tr></thead>
+        <tbody id="z-body"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:16px; font-size:12px; color:var(--text2)">
+      <strong>Como ler:</strong> Para Z=1,25 → linha 1,2 + coluna 0,05 → valor = 0,8944. Clique em qualquer célula para destacá-la.
+    </div>
+  </div>
+</div><!-- fim tabelaz -->
+
+<!-- ══════════════════════════════════════════════ ESTRATÉGIA -->
+<div id="estrategia" class="section">
+  <div class="sec-header">
+    <h2>Estratégia de Prova</h2>
+    <p>Como identificar fórmulas, evitar erros e ganhar tempo na prova de Estatística.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Como Identificar Qual Fórmula Usar</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Se a questão pede...</th><th>Use...</th><th>Atenção</th></tr>
+      <tr><td>"distribuição de frequências"</td><td class="td-mono">f, fr, fa, fra</td><td>Verificar se h é uniforme</td></tr>
+      <tr><td>"média" com dados em classes</td><td class="td-mono">Σ(Pm·f)/n</td><td>Usar ponto médio, não limite</td></tr>
+      <tr><td>"mediana" com dados em classes</td><td class="td-mono">Md = L + [(n/2−F_ant)/f]·h</td><td>F_ant = fa ANTES da classe</td></tr>
+      <tr><td>"moda" com dados em classes</td><td class="td-mono">Mo = L + [Δ₁/(Δ₁+Δ₂)]·h</td><td>Δ sempre positivo</td></tr>
+      <tr><td>"dispersão relativa" ou "homogeneidade"</td><td class="td-mono">CV = s/x̄ · 100</td><td>Comparar ≤15%, 15–30%, &gt;30%</td></tr>
+      <tr><td>"probabilidade" + "normal"</td><td class="td-mono">Z = (X−μ)/σ + Tabela Z</td><td>Desenhar curva antes</td></tr>
+      <tr><td>"intervalo de confiança"</td><td class="td-mono">x̄ ± Z·(σ/√n)</td><td>Z depende do nível de confiança</td></tr>
+      <tr><td>"teste de hipóteses"</td><td class="td-mono">Z_calc = (x̄−μ₀)/(σ/√n)</td><td>Bicaudal usa ±Z</td></tr>
+      <tr><td>"correlação" ou "associação linear"</td><td class="td-mono">r de Pearson</td><td>−1 ≤ r ≤ +1</td></tr>
+      <tr><td>"previsão" ou "estimar Y dado X"</td><td class="td-mono">Ŷ = a + b·X</td><td>Calcular b antes de a</td></tr>
+    </table></div>
+  </div>
+
+  <div class="strat-grid" style="margin-top:20px">
+    <div class="strat-card">
+      <div class="strat-icon">⏱</div>
+      <h4>Gestão de Tempo</h4>
+      <ul class="styled">
+        <li>Leia todas as questões em 3 min</li>
+        <li>Comece pelo que você sabe</li>
+        <li>~20 min por questão de 2,5 pts</li>
+        <li>Reserve 10 min para revisão</li>
+        <li>Não fique preso: pule e volte</li>
+      </ul>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">🧮</div>
+      <h4>Evitar Erros de Cálculo</h4>
+      <ul class="styled">
+        <li>Monte tabela auxiliar sempre</li>
+        <li>Verifique Σf = n e Σfr = 1</li>
+        <li>Desenhe a curva normal</li>
+        <li>Confira sinais nos desvios</li>
+        <li>Use raiz de n, não n</li>
+      </ul>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">📋</div>
+      <h4>Ordem Ideal de Resolução</h4>
+      <ul class="styled">
+        <li>1º: Estatística descritiva</li>
+        <li>2º: Tendência central</li>
+        <li>3º: Dispersão + CV</li>
+        <li>4º: Distribuição normal</li>
+        <li>5º: Inferência</li>
+        <li>6º: Regressão (mais trabalhosa)</li>
+      </ul>
+    </div>
+    <div class="strat-card">
+      <div class="strat-icon">✍️</div>
+      <h4>Organização na Prova</h4>
+      <ul class="styled">
+        <li>Escreva a fórmula antes de calcular</li>
+        <li>Identifique cada variável</li>
+        <li>Calcule passo a passo visível</li>
+        <li>Responda com unidade (R$, %)</li>
+        <li>Interprete o resultado em 1 frase</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:24px">
+    <div class="card-title">Folha de Fórmulas Rápidas — Leve para Véspera</div>
+    <div class="two-col">
+      <div>
+        <div class="formula-box"><div class="formula-label">Média Agrupada</div>x̄ = Σ(Pm·f) / n</div>
+        <div class="formula-box"><div class="formula-label">Mediana Agrupada</div>Md = L_md + [(n/2−F_ant)/f_md]·h</div>
+        <div class="formula-box"><div class="formula-label">Moda Czuber</div>Mo = L_mo + [Δ₁/(Δ₁+Δ₂)]·h</div>
+        <div class="formula-box"><div class="formula-label">Variância Amostral</div>s² = Σ(xᵢ−x̄)²/(n−1)</div>
+        <div class="formula-box"><div class="formula-label">CV</div>CV = (s/x̄)·100%</div>
+      </div>
+      <div>
+        <div class="formula-box"><div class="formula-label">Padronização Z</div>Z = (X−μ)/σ</div>
+        <div class="formula-box"><div class="formula-label">Intervalo de Confiança</div>IC = x̄ ± Z_(α/2)·(σ/√n)</div>
+        <div class="formula-box"><div class="formula-label">Teste Z</div>Z_calc = (x̄−μ₀)/(σ/√n)</div>
+        <div class="formula-box"><div class="formula-label">Correlação de Pearson</div>r = [nΣXY−ΣXΣY]/√{[nΣX²−(ΣX)²][nΣY²−(ΣY)²]}</div>
+        <div class="formula-box"><div class="formula-label">Regressão: coef. angular</div>b = [nΣXY−ΣXΣY]/[nΣX²−(ΣX)²]<br>a = Ȳ − b·X̄</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Peso dos Tópicos — Priorize seu Estudo</div>
+    <div id="prioridades"></div>
+  </div>
+</div><!-- fim estrategia -->
+
+</div><!-- fim main -->
+
+<script>
+// ─── NAVEGAÇÃO ───────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ─── ACCORDION TÓPICOS ───────────────────────────
+function toggleTopic(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  document.querySelectorAll('.topic-header.open').forEach(h => {
+    h.classList.remove('open');
+    h.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) {
+    header.classList.add('open');
+    body.classList.add('open');
+  }
+}
+
+// ─── SUB TABS ────────────────────────────────────
+function showSub(btn, targetId) {
+  const parent = btn.closest('.topic-body');
+  parent.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  parent.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(targetId).classList.add('active');
+}
+
+// ─── TOGGLE RESPOSTAS ────────────────────────────
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  ans.classList.toggle('show');
+  btn.textContent = ans.classList.contains('show') ? 'Ocultar Resolução ▴' : 'Ver Resolução ▾';
+}
+function toggleSimGab(btn) {
+  const gab = btn.nextElementSibling;
+  gab.classList.toggle('show');
+  btn.textContent = gab.classList.contains('show') ? 'Ocultar Gabarito ▴' : 'Ver Gabarito ▾';
+}
+function toggleAllGabarito(sim) {
+  const items = document.querySelectorAll(`[data-sim="${sim}"] .simulado-gabarito`);
+  const btns = document.querySelectorAll(`[data-sim="${sim}"] .ex-toggle`);
+  items.forEach(i => i.classList.add('show'));
+  btns.forEach(b => b.textContent = 'Ocultar Gabarito ▴');
+}
+
+// ─── CRONOGRAMA ──────────────────────────────────
+const schedule = [
+  {d:'17/04 Qui',t:'teoria',tema:'Distrib. Frequências',h:'1,5h'},
+  {d:'18/04 Sex',t:'pratica',tema:'Histogramas + Polígonos',h:'1,5h'},
+  {d:'19/04 Sáb',t:'revisao',tema:'Revisão T1 (24h)',h:'1h'},
+  {d:'20/04 Dom',t:'descanso',tema:'Descanso',h:'—'},
+  {d:'21/04 Seg',t:'teoria',tema:'Média (bruta + agrup.)',h:'1,5h'},
+  {d:'22/04 Ter',t:'pratica',tema:'Mediana + Moda dados agrup.',h:'2h'},
+  {d:'23/04 Qua',t:'pratica',tema:'Exercícios T2 (prova)',h:'2h'},
+  {d:'24/04 Qui',t:'revisao',tema:'Revisão T1+T2 (7 dias T1)',h:'1,5h'},
+  {d:'25/04 Sex',t:'teoria',tema:'Variância + Desvio Padrão',h:'1,5h'},
+  {d:'26/04 Sáb',t:'pratica',tema:'CV + Exercícios T3',h:'2h'},
+  {d:'27/04 Dom',t:'descanso',tema:'Descanso',h:'—'},
+  {d:'28/04 Seg',t:'teoria',tema:'Distribuição Normal + Z',h:'2h'},
+  {d:'29/04 Ter',t:'pratica',tema:'Tabela Z + Exercícios T4',h:'2h'},
+  {d:'30/04 Qua',t:'revisao',tema:'Revisão T3+T4 (7 dias T3)',h:'1,5h'},
+  {d:'01/05 Qui',t:'simulado',tema:'SIMULADO 1 (T1–T4)',h:'2,5h'},
+  {d:'02/05 Sex',t:'teoria',tema:'Inferência Estatística',h:'2h'},
+  {d:'03/05 Sáb',t:'pratica',tema:'IC + Testes Hipóteses',h:'2h'},
+  {d:'04/05 Dom',t:'descanso',tema:'Descanso / revisão leve',h:'1h'},
+  {d:'05/05 Seg',t:'teoria',tema:'Correlação Pearson',h:'1,5h'},
+  {d:'05/05 Seg',t:'pratica',tema:'Regressão Linear',h:'1h'},
+  {d:'06/05 Ter',t:'revisao',tema:'Revisão geral — pontos fracos',h:'2h'},
+  {d:'07/05 Qua',t:'revisao',tema:'Fórmulas + revisão rápida',h:'1,5h'},
+  {d:'07/05 Qua',t:'simulado',tema:'SIMULADO 2 (completo)',h:'2,5h'},
+  {d:'08/05 Qui',t:'revisao',tema:'⭐ PROVA — só fórmulas',h:'0,5h'},
+];
+
+const tipoMap = {
+  teoria: {label:'Teoria', cls:'tipo-teoria'},
+  pratica: {label:'Prática', cls:'tipo-pratica'},
+  revisao: {label:'Revisão', cls:'tipo-revisao'},
+  simulado: {label:'Simulado', cls:'tipo-simulado'},
+  descanso: {label:'Descanso', cls:'tipo-descanso'},
+};
+
+const grid = document.getElementById('calGrid');
+schedule.forEach(item => {
+  const m = tipoMap[item.t];
+  const div = document.createElement('div');
+  div.className = `cal-day ${m.cls}`;
+  div.innerHTML = `<div class="date">${item.d}</div><div class="tipo">${m.label}</div><div class="tema">${item.tema}</div><div class="horas">${item.h}</div>`;
+  grid.appendChild(div);
+});
+
+// ─── TABELA Z ────────────────────────────────────
+const zData = {
+  '0.0':[.5000,.5040,.5080,.5120,.5160,.5199,.5239,.5279,.5319,.5359],
+  '0.1':[.5398,.5438,.5478,.5517,.5557,.5596,.5636,.5675,.5714,.5753],
+  '0.2':[.5793,.5832,.5871,.5910,.5948,.5987,.6026,.6064,.6103,.6141],
+  '0.3':[.6179,.6217,.6255,.6293,.6331,.6368,.6406,.6443,.6480,.6517],
+  '0.4':[.6554,.6591,.6628,.6664,.6700,.6736,.6772,.6808,.6844,.6879],
+  '0.5':[.6915,.6950,.6985,.7019,.7054,.7088,.7123,.7157,.7190,.7224],
+  '0.6':[.7257,.7291,.7324,.7357,.7389,.7422,.7454,.7486,.7517,.7549],
+  '0.7':[.7580,.7611,.7642,.7673,.7704,.7734,.7764,.7794,.7823,.7852],
+  '0.8':[.7881,.7910,.7939,.7967,.7995,.8023,.8051,.8078,.8106,.8133],
+  '0.9':[.8159,.8186,.8212,.8238,.8264,.8289,.8315,.8340,.8365,.8389],
+  '1.0':[.8413,.8438,.8461,.8485,.8508,.8531,.8554,.8577,.8599,.8621],
+  '1.1':[.8643,.8665,.8686,.8708,.8729,.8749,.8770,.8790,.8810,.8830],
+  '1.2':[.8849,.8869,.8888,.8907,.8925,.8944,.8962,.8980,.8997,.9015],
+  '1.3':[.9032,.9049,.9066,.9082,.9099,.9115,.9131,.9147,.9162,.9177],
+  '1.4':[.9192,.9207,.9222,.9236,.9251,.9265,.9279,.9292,.9306,.9319],
+  '1.5':[.9332,.9345,.9357,.9370,.9382,.9394,.9406,.9418,.9429,.9441],
+  '1.6':[.9452,.9463,.9474,.9484,.9495,.9505,.9515,.9525,.9535,.9545],
+  '1.7':[.9554,.9564,.9573,.9582,.9591,.9599,.9608,.9616,.9625,.9633],
+  '1.8':[.9641,.9649,.9656,.9664,.9671,.9678,.9686,.9693,.9699,.9706],
+  '1.9':[.9713,.9719,.9726,.9732,.9738,.9744,.9750,.9756,.9761,.9767],
+  '2.0':[.9772,.9778,.9783,.9788,.9793,.9798,.9803,.9808,.9812,.9817],
+  '2.1':[.9821,.9826,.9830,.9834,.9838,.9842,.9846,.9850,.9854,.9857],
+  '2.2':[.9861,.9864,.9868,.9871,.9875,.9878,.9881,.9884,.9887,.9890],
+  '2.3':[.9893,.9896,.9898,.9901,.9904,.9906,.9909,.9911,.9913,.9916],
+  '2.4':[.9918,.9920,.9922,.9925,.9927,.9929,.9931,.9932,.9934,.9936],
+  '2.5':[.9938,.9940,.9941,.9943,.9945,.9946,.9948,.9949,.9951,.9952],
+  '2.6':[.9953,.9955,.9956,.9957,.9959,.9960,.9961,.9962,.9963,.9964],
+  '2.7':[.9965,.9966,.9967,.9968,.9969,.9970,.9971,.9972,.9973,.9974],
+  '2.8':[.9974,.9975,.9976,.9977,.9977,.9978,.9979,.9979,.9980,.9981],
+  '2.9':[.9981,.9982,.9982,.9983,.9984,.9984,.9985,.9985,.9986,.9986],
+  '3.0':[.9987,.9987,.9987,.9988,.9988,.9989,.9989,.9989,.9990,.9990],
+};
+
+const cols = ['0.00','0.01','0.02','0.03','0.04','0.05','0.06','0.07','0.08','0.09'];
+const thead = document.getElementById('z-header');
+cols.forEach(c => { const th = document.createElement('th'); th.textContent = c; thead.appendChild(th); });
+
+const tbody = document.getElementById('z-body');
+Object.entries(zData).forEach(([row, vals]) => {
+  const tr = document.createElement('tr');
+  const th = document.createElement('th'); th.textContent = row; tr.appendChild(th);
+  vals.forEach((v, i) => {
+    const td = document.createElement('td');
+    td.textContent = v.toFixed(4);
+    td.style.cursor = 'pointer';
+    td.addEventListener('click', function() {
+      document.querySelectorAll('.z-highlight').forEach(el => el.classList.remove('z-highlight'));
+      this.classList.add('z-highlight');
+      tr.firstElementChild.classList.add('z-highlight');
+      document.querySelectorAll('#z-header th')[i+1].classList.add('z-highlight');
+    });
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+});
+
+// ─── PRIORIDADES ─────────────────────────────────
+const prioridades = [
+  {label:'Med. Tendência Central (Agrupados)', pct:90, color:'var(--accent3)'},
+  {label:'Distribuição Normal + Tabela Z', pct:85, color:'var(--accent)'},
+  {label:'Medidas de Dispersão', pct:80, color:'var(--orange)'},
+  {label:'Correlação + Regressão', pct:75, color:'var(--accent2)'},
+  {label:'Estatística Descritiva', pct:70, color:'var(--accent4)'},
+  {label:'Inferência (IC + Teste Z)', pct:65, color:'var(--accent5)'},
+];
+const container = document.getElementById('prioridades');
+prioridades.forEach(p => {
+  container.innerHTML += `
+    <div class="progress-row">
+      <span class="progress-label">${p.label}</span>
+      <div class="progress-bar"><div class="progress-fill" style="width:${p.pct}%;background:${p.color}"></div></div>
+      <span class="progress-pct">${p.pct}%</span>
+    </div>`;
+});
+</script>
+</body>
+</html>
